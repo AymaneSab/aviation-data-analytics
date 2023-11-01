@@ -2,6 +2,8 @@
     "python.analysis.extraPaths": [
         "data_collection",
         "data_collection/scrappers/bin/",
-        "./data_collection/scrappers"
+        "./data_collection/scrappers",
+        "./traffic/src",
+        "./opensky-api/python"
     ]
 }

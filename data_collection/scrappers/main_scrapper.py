@@ -67,8 +67,7 @@ class Flights_Scrapper:
             return []
 
 try:
-
-    airports_csv_path = 'data_processing/Treated_data/treated_airport_data.csv'
+    airports_csv_path = '/Users/sabri/Desktop/Study /Youcode/Github/aviation-data-analytics/data_collection/data_sources/airport_info.csv'
     flights_scrapper = Flights_Scrapper(airports_csv_path)
     result = flights_scrapper.collect_flights_data('Morocco', 'France', '2024-01-10', '2024-01-21')
 
