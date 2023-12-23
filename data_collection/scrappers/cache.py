@@ -49,6 +49,7 @@ class _CacheControl:
 					return # Data already in csv, redundant
 
 		df.to_csv(fname)
+		
 		with open(access, 'w') as file:
 			file.write(current_access)
 

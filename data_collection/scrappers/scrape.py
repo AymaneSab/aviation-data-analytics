@@ -29,6 +29,7 @@ class _Scrape:
 			obj = self.clone()
 			obj.data = self._data
 			return obj
+		
 		else:
 			self._set_properties(*(args[:-1]))
 			obj = self.clone()
@@ -146,7 +147,7 @@ class _Scrape:
 	@staticmethod
 	def _get_driver():
 		try:
-			chromedriver_path = "/Users/sabri/Desktop/Study /Youcode/Github/Flight_Analysis/Scrapping/flight-analysis-main/src/google_flight_analysis/bin/chromedriver"  # Adjust the path accordingly
+			chromedriver_path = "/Users/sabri/Desktop/Study /Youcode/Github/aviation-data-analytics/data_collection/scrappers/bin/chromedriver"  # Adjust the path accordingly
 			chrom_binary_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"  # Adjust the path accordingly
 
 			# Configure Chrome options with Opera binary location
@@ -323,10 +324,7 @@ class _Scrape:
 			'Access Date' : access_date
 		})
 
-
-
 Scrape = _Scrape()
-
 
 result = Scrape('JFK', 'IST', '2023-11-25', '2023-11-10') # obtain our scrape object
 
