@@ -8,8 +8,8 @@ import pandas as pd
 from tqdm import tqdm
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
-
-
+import os 
+import sys 
 
 __all__ = ['Scrape', '_Scrape']
 
@@ -143,27 +143,27 @@ class _Scrape:
 		except Exception as e:
 			print(f"An error occurred while getting results: {e}")
 			return None
-	
+		
 	@staticmethod
 	def _get_driver():
 		try:
 			chromedriver_path = "/Users/sabri/Desktop/Study /Youcode/Github/aviation-data-analytics/data_collection/scrappers/bin/chromedriver"  # Adjust the path accordingly
 			chrom_binary_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"  # Adjust the path accordingly
 
-			# Configure Chrome options with Opera binary location
+            # Configure Chrome options with Opera binary location
 			chrome_options = webdriver.ChromeOptions()
 			chrome_options.binary_location = chrom_binary_path
-
-			# Create a new instance of the Chrome driver with specified options and executable path
+			
+            # Create a new instance of the Chrome driver with specified options and executable path
 			driver = webdriver.Chrome(executable_path=chromedriver_path, options=chrome_options)
-
+			
 			return driver
+		
 		except Exception as e:
-			print(f"An error occurred in _get_driver: {e}")
-			# You might want to raise the exception again if it's not handled here
-			# raise e
+			print(f"An unexpected error occurred in _get_driver: {e}")
+
 		return None
-	
+		
 	@staticmethod
 	def _make_url_request(url):
 		try:
@@ -323,6 +323,8 @@ class _Scrape:
 			'Trip Type' : trip_type,
 			'Access Date' : access_date
 		})
+
+
 
 Scrape = _Scrape()
 
