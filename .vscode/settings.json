@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
-        "data_collection"
+        "data_collection" ,
+        "data_collection/scrappers/bin/"
     ]
 }
