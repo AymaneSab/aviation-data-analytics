@@ -109,11 +109,12 @@ class _Scrape:
 	def data(self, x):
 		self._data = x
 
-
 	def _scrape_data(self):
 		try:
+			
 			url = self._make_url()
 			return self._get_results(url)
+		
 		except Exception as e:
 			print(f"An error occurred during data scraping: {e}")
 			return None
