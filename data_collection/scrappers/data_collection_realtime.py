@@ -111,7 +111,7 @@ class _Scrape:
 
 	def _scrape_data(self):
 		try:
-			
+
 			url = self._make_url()
 			return self._get_results(url)
 		
@@ -148,8 +148,8 @@ class _Scrape:
 	@staticmethod
 	def _get_driver():
 		try:
-			chromedriver_path = "/Users/sabri/Desktop/Study /Youcode/Github/aviation-data-analytics/data_collection/scrappers/bin/chromedriver"  # Adjust the path accordingly
-			chrom_binary_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"  # Adjust the path accordingly
+			chromedriver_path = "/Users/sabri/Desktop/Study /Youcode/Github/aviation-data-analytics/data_collection/scrappers/bin/chromedriver"  
+			chrom_binary_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"  
 
             # Configure Chrome options with Opera binary location
 			chrome_options = webdriver.ChromeOptions()
@@ -324,7 +324,6 @@ class _Scrape:
 			'Trip Type' : trip_type,
 			'Access Date' : access_date
 		})
-
 
 
 Scrape = _Scrape()
