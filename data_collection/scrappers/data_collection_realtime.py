@@ -2,15 +2,16 @@ from time import sleep
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 import numpy as np
 import pandas as pd
-from tqdm import tqdm
-from selenium.common.exceptions import TimeoutException
-from selenium.common.exceptions import NoSuchElementException
-import os 
-import sys 
+import os
+import sys
 import logging
+import atexit
+import signal
+
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 def setup_logging():
     log_directory = "Log/Scrapping"
@@ -21,6 +22,7 @@ def setup_logging():
     logging.basicConfig(filename=log_filepath, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
     consumer_logger = logging.getLogger(__name__)
+    atexit.register(logging.shutdown)  # Ensure proper shutdown of the logger
     return consumer_logger
 
 # Call the setup_logging function
@@ -35,21 +37,27 @@ class _Scrape:
         self._dest = None
         self._date_leave = None
         self._date_return = None
-        self._data = None
+        self._data = pd.DataFrame()  # Set a default empty DataFrame
+
+        signal.signal(signal.SIGINT, self._save_data_on_interrupt)
 
     def __call__(self, *args):
-        if len(args) == 4:
-            self._set_properties(*args)
-            self._data = self._scrape_data()
+        try:
+            if len(args) == 4:
+                self._set_properties(*args)
+                self._data = self._scrape_data()
+            else:
+                self._set_properties(*(args[:-1]))
+                self._data = args[-1]
+
             obj = self.clone()
             obj.data = self._data
             return obj
-        
-        else:
-            self._set_properties(*(args[:-1]))
-            obj = self.clone()
-            obj.data = args[-1]
-            return obj
+
+        except KeyboardInterrupt:
+            logger.warning("Keyboard interruption. Saving scraped data.")
+            self._save_data_on_exit()
+            sys.exit(0)
 
     def __str__(self):
         return "{dl}: {org} --> {dest}\n{dr}: {dest} --> {org}".format(
@@ -76,7 +84,7 @@ class _Scrape:
         return obj
 
     '''
-        scraper called.
+        scraper called - Setters .
     '''
 
     def _set_properties(self, *args):
@@ -124,15 +132,40 @@ class _Scrape:
     def data(self, x):
         self._data = x
 
+    '''
+        scraper operations - Functions .
+    '''
+
+    def _save_data_on_interrupt(self, signum, frame):
+        logger.warning("Script interrupted. Saving scraped data.")
+        self._save_data_on_exit()
+        sys.exit(0)
+
+    def _save_data_on_exit(self):
+        if self._data is not None:
+            csv_filename = f"data_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.csv"
+            csv_directory = "Data"
+            os.makedirs(csv_directory, exist_ok=True)  # Create 'Data' directory if it doesn't exist
+            csv_filepath = os.path.join(csv_directory, csv_filename)
+            self._data.to_csv(csv_filepath, index=False)
+            logger.info(f"Data saved to CSV file: {csv_filepath}")
+
     def _scrape_data(self):
         try:
             start_time = datetime.now()
             logger.info("Start Scrapping Data at {}".format(start_time))
             url = self._make_url()
-            return self._get_results(url)
+            self._data = pd.DataFrame()  # Initialize to an empty DataFrame
+
+            if url:
+                self._data = self._get_results(url)
         except Exception as e:
             logger.error(f"An error occurred during data scraping: {e}")
-            return None
+            # Set _data to an empty DataFrame in case of an error
+            self._data = pd.DataFrame()
+            # Save the data to a CSV file even if an error occurs
+            self._save_data_on_exit()
+            raise
         finally:
             end_time = datetime.now()
             logger.info("End Scrapping Data at {}. Elapsed Time: {}".format(end_time, end_time - start_time))
@@ -154,15 +187,18 @@ class _Scrape:
             results = _Scrape._make_url_request(url)
             if results:
                 flight_info = _Scrape._get_info(results)
+
                 partition = _Scrape._partition_info(flight_info)
-                return _Scrape._parse_columns(partition, self._date_leave, self._date_return)
-            else:
-                logger.error("No Results Obtained")
-                return None
+                flights_data = _Scrape._parse_columns(partition, self._date_leave, self._date_return)
+
+                return flights_data 
+            
         except Exception as e:
             logger.error(f"An error occurred while getting results: {e}")
-            return None
+            self._save_data_on_exit()
 
+        return None
+    
     @staticmethod
     def _get_driver():
         try:
@@ -180,15 +216,13 @@ class _Scrape:
 
         except Exception as e:
             logger.error(f"An unexpected error occurred in _get_driver: {e}")
-        return None
+            return None
 
     @staticmethod
     def _make_url_request(url):
         try:
             driver = _Scrape._get_driver()
             driver.get(url)
-
-            sleep(60)
 
             # Waiting and initial XPATH cleaning
             WebDriverWait(driver, timeout=60).until(lambda d: len(_Scrape._get_flight_elements(d)) > 100)
@@ -263,91 +297,93 @@ class _Scrape:
 
     @staticmethod
     def _parse_columns(grouped, date_leave, date_return):
-        # Instantiate empty column arrays
-        depart_time = []
-        arrival_time = []
-        airline = []
-        travel_time = []
-        origin = []
-        dest = []
-        stops = []
-        stop_time = []
-        stop_location = []
-        co2_emission = []
-        emission = []
-        price = []
-        trip_type = []
-        access_date = [date.today().strftime('%Y-%m-%d')] * len(grouped)
+        flight_data = []  # List to store dictionaries representing each flight
 
-        # For each "flight"
-        for g in grouped:
-            i_diff = 0  # int that checks if we need to jump ahead based on some conditions
+        try:
+            for g in grouped:
+                i_diff = 0
 
-            # Get departure and arrival times
-            depart_time += [g[0]]
-            arrival_time += [g[1]]
-
-            # When this string shows up we jump ahead an index
-            i_diff += 1 if 'Separate tickets booked together' in g[2] else 0
-
-            # Add airline, travel time, origin, and dest
-            airline += [g[2 + i_diff]]
-            travel_time += [g[3 + i_diff]]
-            origin += [g[4 + i_diff].split('–')[0]]
-            dest += [g[4 + i_diff].split('–')[1]]
-
-            # Grab the number of stops by splitting string
-            num_stops = 0 if 'Nonstop' in g[5 + i_diff] else int(g[5 + i_diff].split('stop')[0])
-            stops += [num_stops]
-
-            # Add stop time/location given whether its nonstop flight or not
-            stop_time += [None if num_stops == 0 else (g[6 + i_diff].split('min')[0] if num_stops == 1 else None)]
-            stop_location += [None if num_stops == 0 else (
-                g[6 + i_diff].split('min')[1] if num_stops == 1 and 'min' in g[6 + i_diff] else [
-                    g[6 + i_diff].split('hr')[1] if 'hr' in g[6 + i_diff] and num_stops == 1 else g[6 + i_diff]])]
-
-            # Jump ahead an index if flight isn't nonstop to accomodate for stop_time, stop_location
-            i_diff += 0 if num_stops == 0 else 1
-
-            # If Co2 emission not listed then we skip, else we add
-            if g[6 + i_diff] != '–':
-                co2_emission += [float(g[6 + i_diff].replace(',', '').split(' kg')[0])]
-                emission += [0 if g[7 + i_diff] == 'Avg emissions' else int(g[7 + i_diff].split('%')[0])]
-
-                price += [float(g[8 + i_diff][1:].replace(',', ''))]
-                trip_type += [g[9 + i_diff]]
-            else:
-                co2_emission += [None]
-                emission += [None]
-                price += [float(g[7 + i_diff][1:].replace(',', ''))]
-                trip_type += [g[8 + i_diff]]
-
-        return pd.DataFrame({
-            'Leave Date': [date_leave] * len(grouped),
-            'Return Date': [date_return] * len(grouped),
-            'Depart Time (Leg 1)': depart_time,
-            'Arrival Time (Leg 1)': arrival_time,
-            'Airline(s)': airline,
-            'Travel Time': travel_time,
-            'Origin': origin,
-            'Destination': dest,
-            'Num Stops': stops,
-            'Layover Time': stop_time,
-            'Stop Location': stop_location,
-            'CO2 Emission': co2_emission,
-            'Emission Avg Diff (%)': emission,
-            'Price ($)': price,
-            'Trip Type': trip_type,
-            'Access Date': access_date
-        })
+                depart_time = g[0]
+                arrival_time = g[1]
+                logger.info(f"depart_time = {depart_time}")
+                logger.info(f"arrival_time = {arrival_time}")
 
 
+                i_diff += 1 if 'Separate tickets booked together' in g[2] else 0
+
+                airline = g[2 + i_diff]
+                travel_time = g[3 + i_diff]
+                origin = g[4 + i_diff].split('–')[0]
+                dest = g[4 + i_diff].split('–')[1]
+
+                logger.info(f"airline = {airline}")
+                logger.info(f"travel_time = {travel_time}")
+                logger.info(f"origin = {origin}")
+                logger.info(f"dest = {dest}")
+
+                num_stops = 0 if 'Nonstop' in g[5 + i_diff] else int(g[5 + i_diff].split('stop')[0])
+                stops = num_stops
+                logger.info(f"stops = {stops}")
+
+                stop_time = None if num_stops == 0 else (g[6 + i_diff].split('min')[0] if num_stops == 1 else None)
+                stop_location = None if num_stops == 0 else (
+                    g[6 + i_diff].split('min')[1] if num_stops == 1 and 'min' in g[6 + i_diff] else [
+                        g[6 + i_diff].split('hr')[1] if 'hr' in g[6 + i_diff] and num_stops == 1 else g[6 + i_diff]])
+                logger.info(f"stop_time = {stop_time}")
+                logger.info(f"stop_location = {stop_location}")
+
+                i_diff += 0 if num_stops == 0 else 1
+
+                price_str = g[8 + i_diff][3:]
+                price_value = float(''.join(char for char in price_str if char.isdigit() or char == '.'))
+                logger.info(f"price_str = {price_str}")
+                logger.info(f"price_value = {price_value}")
+                logger.info(f"flight_data ====== {flight_data}")
+
+                flight_data.append({
+                    'Leave Date': date_leave,
+                    'Return Date': date_return,
+                    'Depart Time (Leg 1)': depart_time,
+                    'Arrival Time (Leg 1)': arrival_time,
+                    'Airline(s)': airline,
+                    'Travel Time': travel_time,
+                    'Origin': origin,
+                    'Destination': dest,
+                    'Num Stops': stops,
+                    'Layover Time': stop_time,
+                    'Stop Location': stop_location,
+                    'CO2 Emission': None,  # Fill in the appropriate value
+                    'Emission Avg Diff (%)': None,  # Fill in the appropriate value
+                    'Price ($)': price_value,
+                    'Trip Type': g[9 + i_diff],
+                    'Access Date': date.today().strftime('%Y-%m-%d')
+                })
+
+        except (ValueError, IndexError) as e:
+            print(f"An error occurred in _parse_columns: {e}")
+
+        df = pd.DataFrame(flight_data)
+        csv_filepath = "flight_data.csv"
+        if not df.empty:
+            # Save DataFrame to CSV file
+            df.to_csv(csv_filepath, index=False)
+            logger.info(f"Data saved to CSV file: {csv_filepath}")
+
+        return df
+
+
+
+# Create an instance of the _Scrape class
 Scrape = _Scrape()
 
-result = Scrape('JFK', 'IST', '2023-11-25', '2023-11-10')  # obtain our scrape object
+# Use the Scrape object as usual to perform scraping
+result = Scrape('JFK', 'IST', '2023-11-25', '2023-11-10')
 
-dataframe = result.data  # outputs a Pandas DF with flight prices/info
-origin = result.origin  # 'JFK'
-dest = result.dest  # 'IST'
-date_leave = result.date_leave  # '2022-05-20'
-date_return = result.date_return  # '2022-06-10'
+# Access the results and other attributes as needed
+dataframe = result.data
+origin = result.origin
+dest = result.dest
+date_leave = result.date_leave
+date_return = result.date_return
+
+
