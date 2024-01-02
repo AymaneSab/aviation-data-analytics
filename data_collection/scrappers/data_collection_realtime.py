@@ -14,7 +14,7 @@ import signal
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 def setup_logging():
-    log_directory = "Log/RealTime_DataColleection"
+    log_directory = "Log/RealTime_DataCollection"
     os.makedirs(log_directory, exist_ok=True)
     log_filename = datetime.now().strftime("%Y-%m-%d_%H-%M-%S.log")
     log_filepath = os.path.join(log_directory, log_filename)
@@ -146,25 +146,25 @@ class _Scrape:
             csv_filename = f"data_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.csv"
             csv_directory = "Data"
             os.makedirs(csv_directory, exist_ok=True)  # Create 'Data' directory if it doesn't exist
+
             csv_filepath = os.path.join(csv_directory, csv_filename)
             self._data.to_csv(csv_filepath, index=False)
+
             logger.info(f"Data saved to CSV file: {csv_filepath}")
 
     def _scrape_data(self):
+        lenpass = '#' * 30 
         try:
             start_time = datetime.now()
             logger.info("Start Scrapping Data at {}".format(start_time))
             url = self._make_url()
-            self._data = pd.DataFrame()  # Initialize to an empty DataFrame
-
             if url:
                 self._data = self._get_results(url)
+
+            logger.info(F"_scrape_data {lenpass} Results Returned Succefully  ")
+
         except Exception as e:
             logger.error(f"An error occurred during data scraping: {e}")
-            # Set _data to an empty DataFrame in case of an error
-            self._data = pd.DataFrame()
-            # Save the data to a CSV file even if an error occurs
-            self._save_data_on_exit()
             raise
         finally:
             end_time = datetime.now()
@@ -172,30 +172,37 @@ class _Scrape:
 
     def _make_url(self):
         try:
+            logger.info(f"Generating URL with parameteres : Destination = {self._dest} / Origin = {self._origin} /  Date_Leave = {self._date_leave} / Date_Return = {self._date_return }")
+
             return 'https://www.google.com/travel/flights?q=Flights%20to%20{dest}%20from%20{org}%20on%20{dl}%20through%20{dr}'.format(
-                dest=self._dest,
-                org=self._origin,
-                dl=self._date_leave,
-                dr=self._date_return
+                dest=self._dest,        # Destination 
+                org=self._origin,       # Origin
+                dl=self._date_leave,    # date leave
+                dr=self._date_return    # date return 
             )
+        
         except Exception as e:
-            logger.error(f"An error occurred while generating URL: {e}")
+            logger.error(f"An error occurred while generating URL : {e}")
             return None
 
     def _get_results(self, url):
         try:
             results = _Scrape._make_url_request(url)
+
             if results:
                 flight_info = _Scrape._get_info(results)
+                logger.info("Generale Data Scrapped Succefully")
 
                 partition = _Scrape._partition_info(flight_info)
-                flights_data = _Scrape._parse_columns(partition, self._date_leave, self._date_return)
+                logger.info("Flights Partitions Generated Succefully")
+
+                flights_data = _Scrape._parse_columns(self , partition, self._date_leave, self._date_return)
+                logger.info("Flights Data Generated Succefully")
 
                 return flights_data 
             
         except Exception as e:
             logger.error(f"An error occurred while getting results: {e}")
-            self._save_data_on_exit()
 
         return None
     
@@ -212,11 +219,13 @@ class _Scrape:
             # Create a new instance of the Chrome driver with specified options and executable path
             driver = webdriver.Chrome(executable_path=chromedriver_path, options=chrome_options)
 
+            logger.info("Mount The  Driver Succefully")
+
             return driver
 
         except Exception as e:
             logger.error(f"An unexpected error occurred in _get_driver: {e}")
-            return None
+            raise
 
     @staticmethod
     def _make_url_request(url):
@@ -229,11 +238,16 @@ class _Scrape:
 
             results = _Scrape._get_flight_elements(driver)
 
+            logger.info("_make_url_request ------> Results Reetrieved Succefully ")
+
             return results
+        
         except TimeoutException as te:
             logger.error(f"Timeout occurred during URL request in _make_url_request - TimeOutException: {te}")
+            raise
         except Exception as e:
             logger.error(f"An error occurred during URL request in _make_url_request: {e}")
+            raise
         finally:
             if 'driver' in locals():
                 driver.quit()
@@ -242,6 +256,7 @@ class _Scrape:
     def _get_flight_elements(driver):
         try:
             return driver.find_element(by=By.XPATH, value='//body[@id = "yDmH0d"]').text.split('\n')
+
         except NoSuchElementException as nse:
             logger.error(f"Error in _get_flight_elements: Element not found. {nse}")
         except Exception as e:
@@ -296,7 +311,7 @@ class _Scrape:
         return False
 
     @staticmethod
-    def _parse_columns(grouped, date_leave, date_return):
+    def _parse_columns(self , grouped, date_leave, date_return):
         flight_data = []  # List to store dictionaries representing each flight
 
         try:
@@ -363,13 +378,16 @@ class _Scrape:
             print(f"An error occurred in _parse_columns: {e}")
 
         df = pd.DataFrame(flight_data)
-        csv_filepath = "flight_data.csv"
+
         if not df.empty:
+            self._data = df
             # Save DataFrame to CSV file
-            df.to_csv(csv_filepath, index=False)
-            logger.info(f"Data saved to CSV file: {csv_filepath}")
+            self._save_data_on_exit
+
+            logger.info("Data saved to CSV file")
 
         return df
+
 
 
 
@@ -377,7 +395,7 @@ class _Scrape:
 Scrape = _Scrape()
 
 # Use the Scrape object as usual to perform scraping
-result = Scrape('JFK', 'IST', '2023-11-25', '2023-11-10')
+result = Scrape('JFK', 'IST', '2024-01-01', '2024-01-05')
 
 # Access the results and other attributes as needed
 dataframe = result.data
