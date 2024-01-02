@@ -14,7 +14,7 @@ import signal
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 def setup_logging():
-    log_directory = "Log/Scrapping"
+    log_directory = "Log/RealTime_DataColleection"
     os.makedirs(log_directory, exist_ok=True)
     log_filename = datetime.now().strftime("%Y-%m-%d_%H-%M-%S.log")
     log_filepath = os.path.join(log_directory, log_filename)
