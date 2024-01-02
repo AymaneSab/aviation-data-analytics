@@ -13,6 +13,10 @@ import signal
 
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
+'''
+    Script Responsile For RealTime_DataCollection 
+'''
+
 def setup_logging():
     log_directory = "Log/Scrapping"
     os.makedirs(log_directory, exist_ok=True)
