@@ -68,8 +68,7 @@ class _Scrape:
         )
 
     def __repr__(self):
-        return "{n} RESULTS FOR:\n{dl}: {org} --> {dest}\n{dr}: {dest} --> {org}".format(
-            n=self._data.shape[0],
+        return "RESULTS FOR:\n{dl}: {org} --> {dest}\n{dr}: {dest} --> {org}".format(
             dl=self._date_leave,
             dr=self._date_return,
             org=self._origin,
@@ -153,15 +152,15 @@ class _Scrape:
             logger.info(f"Data saved to CSV file: {csv_filepath}")
 
     def _scrape_data(self):
-        lenpass = '#' * 30 
         try:
             start_time = datetime.now()
             logger.info("Start Scrapping Data at {}".format(start_time))
+
             url = self._make_url()
             if url:
                 self._data = self._get_results(url)
 
-            logger.info(F"_scrape_data {lenpass} Results Returned Succefully  ")
+            logger.info("_scrape_data -------> Results Returned Succefully  ")
 
         except Exception as e:
             logger.error(f"An error occurred during data scraping: {e}")
@@ -172,7 +171,7 @@ class _Scrape:
 
     def _make_url(self):
         try:
-            logger.info(f"Generating URL with parameteres : Destination = {self._dest} / Origin = {self._origin} /  Date_Leave = {self._date_leave} / Date_Return = {self._date_return }")
+            logger.info("_make_url --------> URL Generated Succefully")
 
             return 'https://www.google.com/travel/flights?q=Flights%20to%20{dest}%20from%20{org}%20on%20{dl}%20through%20{dr}'.format(
                 dest=self._dest,        # Destination 
@@ -191,18 +190,16 @@ class _Scrape:
 
             if results:
                 flight_info = _Scrape._get_info(results)
-                logger.info("Generale Data Scrapped Succefully")
-
                 partition = _Scrape._partition_info(flight_info)
-                logger.info("Flights Partitions Generated Succefully")
-
                 flights_data = _Scrape._parse_columns(self , partition, self._date_leave, self._date_return)
-                logger.info("Flights Data Generated Succefully")
+
+                logger.info("_get_results --------> Flights Data Scrapped Succefully")
 
                 return flights_data 
             
         except Exception as e:
             logger.error(f"An error occurred while getting results: {e}")
+            raise
 
         return None
     
@@ -218,8 +215,6 @@ class _Scrape:
 
             # Create a new instance of the Chrome driver with specified options and executable path
             driver = webdriver.Chrome(executable_path=chromedriver_path, options=chrome_options)
-
-            logger.info("Mount The  Driver Succefully")
 
             return driver
 
@@ -320,10 +315,6 @@ class _Scrape:
 
                 depart_time = g[0]
                 arrival_time = g[1]
-                logger.info(f"depart_time = {depart_time}")
-                logger.info(f"arrival_time = {arrival_time}")
-
-
                 i_diff += 1 if 'Separate tickets booked together' in g[2] else 0
 
                 airline = g[2 + i_diff]
@@ -331,29 +322,19 @@ class _Scrape:
                 origin = g[4 + i_diff].split('–')[0]
                 dest = g[4 + i_diff].split('–')[1]
 
-                logger.info(f"airline = {airline}")
-                logger.info(f"travel_time = {travel_time}")
-                logger.info(f"origin = {origin}")
-                logger.info(f"dest = {dest}")
-
                 num_stops = 0 if 'Nonstop' in g[5 + i_diff] else int(g[5 + i_diff].split('stop')[0])
                 stops = num_stops
-                logger.info(f"stops = {stops}")
 
                 stop_time = None if num_stops == 0 else (g[6 + i_diff].split('min')[0] if num_stops == 1 else None)
                 stop_location = None if num_stops == 0 else (
                     g[6 + i_diff].split('min')[1] if num_stops == 1 and 'min' in g[6 + i_diff] else [
                         g[6 + i_diff].split('hr')[1] if 'hr' in g[6 + i_diff] and num_stops == 1 else g[6 + i_diff]])
-                logger.info(f"stop_time = {stop_time}")
-                logger.info(f"stop_location = {stop_location}")
+
 
                 i_diff += 0 if num_stops == 0 else 1
 
                 price_str = g[8 + i_diff][3:]
                 price_value = float(''.join(char for char in price_str if char.isdigit() or char == '.'))
-                logger.info(f"price_str = {price_str}")
-                logger.info(f"price_value = {price_value}")
-                logger.info(f"flight_data ====== {flight_data}")
 
                 flight_data.append({
                     'Leave Date': date_leave,
@@ -375,20 +356,16 @@ class _Scrape:
                 })
 
         except (ValueError, IndexError) as e:
-            print(f"An error occurred in _parse_columns: {e}")
+            logging.error(f"An error occurred in _parse_columns: {e}")
 
         df = pd.DataFrame(flight_data)
 
         if not df.empty:
             self._data = df
             # Save DataFrame to CSV file
-            self._save_data_on_exit
-
-            logger.info("Data saved to CSV file")
+            self._save_data_on_exit()
 
         return df
-
-
 
 
 # Create an instance of the _Scrape class
