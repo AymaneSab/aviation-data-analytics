@@ -385,8 +385,3 @@ class _Scrape:
 
 
 
-
-Scrape = _Scrape()
-
-# Use the Scrape object as usual to perform scraping
-result = Scrape('JFK', 'IST', '2024-01-01', '2024-01-05')
