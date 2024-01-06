@@ -1,6 +1,0 @@
-Leave Date,Return Date,Depart Time (Leg 1),Arrival Time (Leg 1),Airline(s),Travel Time,Origin,Destination,Num Stops,Layover Time,Stop Location,CO2 Emission,Emission Avg Diff (%),Price ($),Trip Type,Access Date
-2023-11-25,2023-11-10,11:40 PM,5:25 PM+1,Turkish AirlinesJetBlue,9 hr 45 min,JFK,IST,0,,,,,13222.0,round trip,2023-12-31
-2023-11-25,2023-11-10,6:30 PM,5:40 PM+1,British Airways,15 hr 10 min,JFK,IST,1,4 hr 15 , LHR,,,11827.0,round trip,2023-12-31
-2023-11-25,2023-11-10,3:55 PM,8:15 PM+1,"Air Canada, Turkish AirlinesOperated by Air Canada Express - Jazz",20 hr 20 min,JFK,IST,2,,"['YYZ, AMS']",,,13196.0,round trip,2023-12-31
-2023-11-25,2023-11-10,8:00 PM,4:40 PM+1,Royal Air Maroc,12 hr 40 min,JFK,IST,1,1 hr 15 , CMN,,,13298.0,round trip,2023-12-31
-2023-11-25,2023-11-10,8:00 PM,1:55 PM+1,Turkish Airlines,9 hr 55 min,JFK,IST,0,,,,,14164.0,round trip,2023-12-31
