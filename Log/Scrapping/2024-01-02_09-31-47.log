@@ -1,4 +1,0 @@
-2024-01-02 09:31:47,177 - INFO - Start Scrapping Data at 2024-01-02 09:31:47.177925
-2024-01-02 09:32:51,766 - ERROR - Timeout occurred during URL request in _make_url_request - TimeOutException: Message: 
-
-2024-01-02 09:32:51,862 - INFO - End Scrapping Data at 2024-01-02 09:32:51.862774. Elapsed Time: 0:01:04.684849

@@ -16,7 +16,7 @@ class Airport_Scrapper:
             "X-RapidAPI-Key": self.api_key,
             "X-RapidAPI-Host": "airport-info.p.rapidapi.com"
         }
-        self.csv_path = "data_collection/collected_data/airports_data.csv"
+        self.csv_path = "data_collection/data_sources/airports.csv"
 
         self.logger = self.setup_logging()
 
@@ -81,12 +81,12 @@ class Airport_Scrapper:
         try:
             self.logger.info("Saving the scrapped airports data ........................................")
 
-            df = pd.DataFrame(airport_info_list)[['iata', 'icao', 'name', 'location', 'latitude', 'longitude', 'website'  , 'country', 'country_iso', 'phone']]
+            df = pd.DataFrame(airport_info_list)[['iata', 'icao', 'name', 'location', 'latitude', 'longitude', 'website' ,'city', 'country', 'country_iso', 'phone']]
 
             # Éliminez les lignes avec des valeurs manquantes dans l'un des champs
             df = df.dropna(subset=['iata', 'icao', 'name', 'location', 'latitude', 'longitude', 'website' ,'city', 'country', 'country_iso', 'phone'])
 
-            df.to_csv("/Users/sabri/Desktop/Study /Youcode/Github/aviation-data-analytics/data_collection/collected_airports_data.csv", index=False)
+            df.to_csv("data_collection/collected_data/collected_airports_data.csv", index=False)
 
             self.logger.info("Les données ont été sauvegardées dans 'collected_airports_data.csv'.")
 
