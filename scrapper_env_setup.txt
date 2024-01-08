@@ -1,0 +1,14 @@
+################################################################################################################################################################
+
+
+### CommandsTo Setup Trafiic Env , For OpenSky API : 
+
+# Installation
+conda create -n traffic -c conda-forge python=3.10 traffic
+conda activate traffic
+
+# Activation  
+conda activate traffic
+
+# Update Traffic 
+conda update -n traffic -c conda-forge traffic
