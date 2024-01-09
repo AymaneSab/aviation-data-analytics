@@ -1,0 +1,301 @@
+2024-01-09 13:32:37,440 - INFO - Villes de départ avec des aéroports : ['Casablanca', 'Nouaceur', 'Bouarfa', 'Kenitra']
+2024-01-09 13:32:37,441 - INFO - Villes de destination avec des aéroports : ['Brenoux', 'Le Bourget', 'Saint-Louis', 'Chaspuzac', 'Ploemeur', "Le Château-d'Olonne", 'Lannion', 'Laval', 'Avignon', 'Bron', 'Colombier-Saugnieu', "Alpe d'Huez", 'Nice', 'Tillé', 'Nespouls', 'Méaulte', 'Carcassonne', 'Guipavas', 'Cholet', 'Ajaccio', 'Calvi', 'Viviers-du-Lac', 'Aurillac', 'Colmar', 'Merville', 'Megève', 'Portiragnes', 'Ouges', 'Saint-Léger-sur-Roanne', 'Tavaux']
+2024-01-09 13:32:37,441 - INFO - Start Scrapping Data at 2024-01-09 13:32:37.441775 .........
+2024-01-09 13:32:59,363 - INFO - Data Retrieved Succefully 
+2024-01-09 13:32:59,376 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:32:59,378 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:32:59,378 - INFO - End Scrapping Data at 2024-01-09 13:32:59.376773. Elapsed Time: 0:00:21.934998
+2024-01-09 13:32:59,379 - INFO - Données de vol pour Casablanca vers Brenoux : 2024-01-10: Casablanca --> Brenoux
+2024-01-21: Brenoux --> Casablanca
+2024-01-09 13:32:59,380 - INFO - Start Scrapping Data at 2024-01-09 13:32:59.380007 .........
+2024-01-09 13:33:05,996 - INFO - Data Retrieved Succefully 
+2024-01-09 13:33:05,998 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:33:05,999 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:33:05,999 - INFO - End Scrapping Data at 2024-01-09 13:33:05.998774. Elapsed Time: 0:00:06.618767
+2024-01-09 13:33:06,001 - INFO - Données de vol pour Casablanca vers Le Bourget : 2024-01-10: Casablanca --> Le Bourget
+2024-01-21: Le Bourget --> Casablanca
+2024-01-09 13:33:06,001 - INFO - Start Scrapping Data at 2024-01-09 13:33:06.001725 .........
+2024-01-09 13:33:17,249 - INFO - Data Retrieved Succefully 
+2024-01-09 13:33:17,254 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:33:17,256 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:33:17,256 - INFO - End Scrapping Data at 2024-01-09 13:33:17.254490. Elapsed Time: 0:00:11.252765
+2024-01-09 13:33:17,257 - INFO - Données de vol pour Casablanca vers Saint-Louis : 2024-01-10: Casablanca --> Saint-Louis
+2024-01-21: Saint-Louis --> Casablanca
+2024-01-09 13:33:17,257 - INFO - Start Scrapping Data at 2024-01-09 13:33:17.257879 .........
+2024-01-09 13:33:27,365 - INFO - Data Retrieved Succefully 
+2024-01-09 13:33:27,368 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:33:27,369 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:33:27,369 - INFO - End Scrapping Data at 2024-01-09 13:33:27.368147. Elapsed Time: 0:00:10.110268
+2024-01-09 13:33:27,371 - INFO - Données de vol pour Casablanca vers Chaspuzac : 2024-01-10: Casablanca --> Chaspuzac
+2024-01-21: Chaspuzac --> Casablanca
+2024-01-09 13:33:27,371 - INFO - Start Scrapping Data at 2024-01-09 13:33:27.371367 .........
+2024-01-09 13:34:39,506 - ERROR - Timeout occurred during URL request in _make_url_request - TimeOutException: Message: 
+
+2024-01-09 13:34:39,612 - ERROR - An error occurred while getting results: Message: 
+
+2024-01-09 13:34:39,612 - ERROR - An error occurred during data scraping: Message: 
+
+2024-01-09 13:34:39,612 - INFO - End Scrapping Data at 2024-01-09 13:34:39.612540. Elapsed Time: 0:01:12.241173
+2024-01-09 13:34:39,612 - ERROR - Une erreur s'est produite pendant la collecte des données de vol : Message: 
+
+2024-01-09 13:39:37,968 - INFO - Villes de départ avec des aéroports : ['Casablanca', 'Nouaceur', 'Bouarfa', 'Kenitra']
+2024-01-09 13:39:37,970 - INFO - Villes de destination avec des aéroports : ['Brenoux', 'Le Bourget', 'Saint-Louis', 'Chaspuzac', 'Ploemeur', "Le Château-d'Olonne", 'Lannion', 'Laval', 'Avignon', 'Bron', 'Colombier-Saugnieu', "Alpe d'Huez", 'Nice', 'Tillé', 'Nespouls', 'Méaulte', 'Carcassonne', 'Guipavas', 'Cholet', 'Ajaccio', 'Calvi', 'Viviers-du-Lac', 'Aurillac', 'Colmar', 'Merville', 'Megève', 'Portiragnes', 'Ouges', 'Saint-Léger-sur-Roanne', 'Tavaux']
+2024-01-09 13:39:37,970 - INFO - Start Scrapping Data at 2024-01-09 13:39:37.970287
+2024-01-09 13:39:47,689 - INFO - Data Retrieved Succefully 
+2024-01-09 13:39:47,703 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:39:47,705 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:39:47,706 - INFO - End Scrapping Data at 2024-01-09 13:39:47.704064. Elapsed Time: 0:00:09.733777
+2024-01-09 13:39:47,707 - INFO - Données de vol pour Casablanca vers Brenoux : 2024-01-10: Casablanca --> Brenoux
+2024-01-21: Brenoux --> Casablanca
+2024-01-09 13:39:47,707 - INFO - Start Scrapping Data at 2024-01-09 13:39:47.707776
+2024-01-09 13:39:55,273 - INFO - Data Retrieved Succefully 
+2024-01-09 13:39:55,275 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:39:55,275 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:39:55,275 - INFO - End Scrapping Data at 2024-01-09 13:39:55.275427. Elapsed Time: 0:00:07.567651
+2024-01-09 13:39:55,276 - INFO - Données de vol pour Casablanca vers Le Bourget : 2024-01-10: Casablanca --> Le Bourget
+2024-01-21: Le Bourget --> Casablanca
+2024-01-09 13:39:55,276 - INFO - Start Scrapping Data at 2024-01-09 13:39:55.276735
+2024-01-09 13:40:07,094 - INFO - Data Retrieved Succefully 
+2024-01-09 13:40:07,097 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:40:07,098 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:40:07,098 - INFO - End Scrapping Data at 2024-01-09 13:40:07.097328. Elapsed Time: 0:00:11.820593
+2024-01-09 13:40:07,099 - INFO - Données de vol pour Casablanca vers Saint-Louis : 2024-01-10: Casablanca --> Saint-Louis
+2024-01-21: Saint-Louis --> Casablanca
+2024-01-09 13:40:07,100 - INFO - Start Scrapping Data at 2024-01-09 13:40:07.100029
+2024-01-09 13:40:23,920 - INFO - Data Retrieved Succefully 
+2024-01-09 13:40:23,922 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:40:23,924 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:40:23,924 - INFO - End Scrapping Data at 2024-01-09 13:40:23.923014. Elapsed Time: 0:00:16.822985
+2024-01-09 13:40:23,925 - INFO - Données de vol pour Casablanca vers Chaspuzac : 2024-01-10: Casablanca --> Chaspuzac
+2024-01-21: Chaspuzac --> Casablanca
+2024-01-09 13:40:23,926 - INFO - Start Scrapping Data at 2024-01-09 13:40:23.926112
+2024-01-09 13:41:37,444 - ERROR - Timeout occurred during URL request in _make_url_request - TimeOutException: Message: 
+
+2024-01-09 13:41:37,629 - ERROR - An error occurred while getting results: Message: 
+
+2024-01-09 13:41:37,629 - ERROR - Un délai d'attente s'est produit pendant la demande d'URL dans _make_url_request - TimeOutException : Message: 
+
+2024-01-09 13:41:37,630 - INFO - End Scrapping Data at 2024-01-09 13:41:37.630115. Elapsed Time: 0:01:13.704003
+2024-01-09 13:41:37,634 - INFO - Données de vol pour Casablanca vers Ploemeur : 2024-01-10: Casablanca --> Ploemeur
+2024-01-21: Ploemeur --> Casablanca
+2024-01-09 13:41:37,634 - INFO - Start Scrapping Data at 2024-01-09 13:41:37.634305
+2024-01-09 13:41:48,717 - INFO - Data Retrieved Succefully 
+2024-01-09 13:41:48,720 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:41:48,722 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:41:48,722 - INFO - End Scrapping Data at 2024-01-09 13:41:48.720648. Elapsed Time: 0:00:11.086343
+2024-01-09 13:41:48,723 - INFO - Données de vol pour Casablanca vers Le Château-d'Olonne : 2024-01-10: Casablanca --> Le Château-d'Olonne
+2024-01-21: Le Château-d'Olonne --> Casablanca
+2024-01-09 13:41:48,723 - INFO - Start Scrapping Data at 2024-01-09 13:41:48.723353
+2024-01-09 13:43:12,507 - ERROR - Timeout occurred during URL request in _make_url_request - TimeOutException: Message: 
+
+2024-01-09 13:43:12,697 - ERROR - An error occurred while getting results: Message: 
+
+2024-01-09 13:43:12,698 - ERROR - Un délai d'attente s'est produit pendant la demande d'URL dans _make_url_request - TimeOutException : Message: 
+
+2024-01-09 13:43:12,698 - INFO - End Scrapping Data at 2024-01-09 13:43:12.698302. Elapsed Time: 0:01:23.974949
+2024-01-09 13:43:12,701 - INFO - Données de vol pour Casablanca vers Lannion : 2024-01-10: Casablanca --> Lannion
+2024-01-21: Lannion --> Casablanca
+2024-01-09 13:43:12,701 - INFO - Start Scrapping Data at 2024-01-09 13:43:12.701637
+2024-01-09 13:43:27,295 - INFO - Data Retrieved Succefully 
+2024-01-09 13:43:27,300 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:43:27,302 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:43:27,302 - INFO - End Scrapping Data at 2024-01-09 13:43:27.300368. Elapsed Time: 0:00:14.598731
+2024-01-09 13:43:27,304 - INFO - Données de vol pour Casablanca vers Laval : 2024-01-10: Casablanca --> Laval
+2024-01-21: Laval --> Casablanca
+2024-01-09 13:43:27,304 - INFO - Start Scrapping Data at 2024-01-09 13:43:27.304618
+2024-01-09 13:44:39,352 - ERROR - Timeout occurred during URL request in _make_url_request - TimeOutException: Message: 
+
+2024-01-09 13:44:39,469 - ERROR - An error occurred while getting results: Message: 
+
+2024-01-09 13:44:39,469 - ERROR - Un délai d'attente s'est produit pendant la demande d'URL dans _make_url_request - TimeOutException : Message: 
+
+2024-01-09 13:44:39,469 - INFO - End Scrapping Data at 2024-01-09 13:44:39.469370. Elapsed Time: 0:01:12.164752
+2024-01-09 13:44:39,472 - INFO - Données de vol pour Casablanca vers Avignon : 2024-01-10: Casablanca --> Avignon
+2024-01-21: Avignon --> Casablanca
+2024-01-09 13:44:39,473 - INFO - Start Scrapping Data at 2024-01-09 13:44:39.472981
+2024-01-09 13:45:56,022 - ERROR - Timeout occurred during URL request in _make_url_request - TimeOutException: Message: 
+
+2024-01-09 13:45:56,204 - ERROR - An error occurred while getting results: Message: 
+
+2024-01-09 13:45:56,204 - ERROR - Un délai d'attente s'est produit pendant la demande d'URL dans _make_url_request - TimeOutException : Message: 
+
+2024-01-09 13:45:56,204 - INFO - End Scrapping Data at 2024-01-09 13:45:56.204843. Elapsed Time: 0:01:16.731862
+2024-01-09 13:45:56,207 - INFO - Données de vol pour Casablanca vers Bron : 2024-01-10: Casablanca --> Bron
+2024-01-21: Bron --> Casablanca
+2024-01-09 13:45:56,207 - INFO - Start Scrapping Data at 2024-01-09 13:45:56.207379
+2024-01-09 13:46:13,861 - INFO - Data Retrieved Succefully 
+2024-01-09 13:46:13,866 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:46:13,867 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:46:13,868 - INFO - End Scrapping Data at 2024-01-09 13:46:13.866820. Elapsed Time: 0:00:17.659441
+2024-01-09 13:46:13,869 - INFO - Données de vol pour Casablanca vers Colombier-Saugnieu : 2024-01-10: Casablanca --> Colombier-Saugnieu
+2024-01-21: Colombier-Saugnieu --> Casablanca
+2024-01-09 13:46:13,869 - INFO - Start Scrapping Data at 2024-01-09 13:46:13.869704
+2024-01-09 13:46:34,814 - INFO - Data Retrieved Succefully 
+2024-01-09 13:46:34,816 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:46:34,817 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:46:34,817 - INFO - End Scrapping Data at 2024-01-09 13:46:34.817094. Elapsed Time: 0:00:20.947390
+2024-01-09 13:46:34,819 - INFO - Données de vol pour Casablanca vers Alpe d'Huez : 2024-01-10: Casablanca --> Alpe d'Huez
+2024-01-21: Alpe d'Huez --> Casablanca
+2024-01-09 13:46:34,819 - INFO - Start Scrapping Data at 2024-01-09 13:46:34.819177
+2024-01-09 13:46:47,514 - INFO - Data Retrieved Succefully 
+2024-01-09 13:46:47,521 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:46:47,524 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:46:47,524 - INFO - End Scrapping Data at 2024-01-09 13:46:47.522101. Elapsed Time: 0:00:12.702924
+2024-01-09 13:46:47,525 - INFO - Données de vol pour Casablanca vers Nice : 2024-01-10: Casablanca --> Nice
+2024-01-21: Nice --> Casablanca
+2024-01-09 13:46:47,525 - INFO - Start Scrapping Data at 2024-01-09 13:46:47.525757
+2024-01-09 13:46:59,362 - INFO - Data Retrieved Succefully 
+2024-01-09 13:46:59,367 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:46:59,374 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:46:59,374 - INFO - End Scrapping Data at 2024-01-09 13:46:59.368029. Elapsed Time: 0:00:11.842272
+2024-01-09 13:46:59,376 - INFO - Données de vol pour Casablanca vers Tillé : 2024-01-10: Casablanca --> Tillé
+2024-01-21: Tillé --> Casablanca
+2024-01-09 13:46:59,377 - INFO - Start Scrapping Data at 2024-01-09 13:46:59.377109
+2024-01-09 13:47:17,732 - INFO - Data Retrieved Succefully 
+2024-01-09 13:47:17,736 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:47:17,737 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:47:17,738 - INFO - End Scrapping Data at 2024-01-09 13:47:17.736312. Elapsed Time: 0:00:18.359203
+2024-01-09 13:47:17,740 - INFO - Données de vol pour Casablanca vers Nespouls : 2024-01-10: Casablanca --> Nespouls
+2024-01-21: Nespouls --> Casablanca
+2024-01-09 13:47:17,741 - INFO - Start Scrapping Data at 2024-01-09 13:47:17.740990
+2024-01-09 13:48:28,156 - ERROR - Timeout occurred during URL request in _make_url_request - TimeOutException: Message: 
+
+2024-01-09 13:48:28,272 - ERROR - An error occurred while getting results: Message: 
+
+2024-01-09 13:48:28,273 - ERROR - Un délai d'attente s'est produit pendant la demande d'URL dans _make_url_request - TimeOutException : Message: 
+
+2024-01-09 13:48:28,273 - INFO - End Scrapping Data at 2024-01-09 13:48:28.273152. Elapsed Time: 0:01:10.532162
+2024-01-09 13:48:28,282 - INFO - Données de vol pour Casablanca vers Méaulte : 2024-01-10: Casablanca --> Méaulte
+2024-01-21: Méaulte --> Casablanca
+2024-01-09 13:48:28,282 - INFO - Start Scrapping Data at 2024-01-09 13:48:28.282852
+2024-01-09 13:49:34,651 - ERROR - Timeout occurred during URL request in _make_url_request - TimeOutException: Message: 
+
+2024-01-09 13:49:34,759 - ERROR - An error occurred while getting results: Message: 
+
+2024-01-09 13:49:34,759 - ERROR - Un délai d'attente s'est produit pendant la demande d'URL dans _make_url_request - TimeOutException : Message: 
+
+2024-01-09 13:49:34,760 - INFO - End Scrapping Data at 2024-01-09 13:49:34.760075. Elapsed Time: 0:01:06.477223
+2024-01-09 13:49:34,761 - INFO - Données de vol pour Casablanca vers Carcassonne : 2024-01-10: Casablanca --> Carcassonne
+2024-01-21: Carcassonne --> Casablanca
+2024-01-09 13:49:34,761 - INFO - Start Scrapping Data at 2024-01-09 13:49:34.761959
+2024-01-09 13:50:43,616 - ERROR - Timeout occurred during URL request in _make_url_request - TimeOutException: Message: 
+
+2024-01-09 13:50:43,751 - ERROR - An error occurred while getting results: Message: 
+
+2024-01-09 13:50:43,752 - ERROR - Un délai d'attente s'est produit pendant la demande d'URL dans _make_url_request - TimeOutException : Message: 
+
+2024-01-09 13:50:43,752 - INFO - End Scrapping Data at 2024-01-09 13:50:43.752561. Elapsed Time: 0:01:08.990602
+2024-01-09 13:50:43,757 - INFO - Données de vol pour Casablanca vers Guipavas : 2024-01-10: Casablanca --> Guipavas
+2024-01-21: Guipavas --> Casablanca
+2024-01-09 13:50:43,757 - INFO - Start Scrapping Data at 2024-01-09 13:50:43.757873
+2024-01-09 13:51:16,008 - ERROR - An error occurred in _parse_columns: list index out of range
+2024-01-09 13:51:16,016 - INFO - Data Retrieved Succefully 
+2024-01-09 13:51:16,024 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:51:16,026 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:51:16,026 - INFO - End Scrapping Data at 2024-01-09 13:51:16.025076. Elapsed Time: 0:00:32.267203
+2024-01-09 13:51:16,027 - INFO - Données de vol pour Casablanca vers Cholet : 2024-01-10: Casablanca --> Cholet
+2024-01-21: Cholet --> Casablanca
+2024-01-09 13:51:16,027 - INFO - Start Scrapping Data at 2024-01-09 13:51:16.027149
+2024-01-09 13:52:29,054 - ERROR - Timeout occurred during URL request in _make_url_request - TimeOutException: Message: 
+
+2024-01-09 13:52:29,225 - ERROR - An error occurred while getting results: Message: 
+
+2024-01-09 13:52:29,226 - ERROR - Un délai d'attente s'est produit pendant la demande d'URL dans _make_url_request - TimeOutException : Message: 
+
+2024-01-09 13:52:29,226 - INFO - End Scrapping Data at 2024-01-09 13:52:29.226126. Elapsed Time: 0:01:13.198977
+2024-01-09 13:52:29,229 - INFO - Données de vol pour Casablanca vers Ajaccio : 2024-01-10: Casablanca --> Ajaccio
+2024-01-21: Ajaccio --> Casablanca
+2024-01-09 13:52:29,229 - INFO - Start Scrapping Data at 2024-01-09 13:52:29.229543
+2024-01-09 13:53:37,813 - ERROR - Timeout occurred during URL request in _make_url_request - TimeOutException: Message: 
+
+2024-01-09 13:53:37,966 - ERROR - An error occurred while getting results: Message: 
+
+2024-01-09 13:53:37,966 - ERROR - Un délai d'attente s'est produit pendant la demande d'URL dans _make_url_request - TimeOutException : Message: 
+
+2024-01-09 13:53:37,966 - INFO - End Scrapping Data at 2024-01-09 13:53:37.966415. Elapsed Time: 0:01:08.736872
+2024-01-09 13:53:37,968 - INFO - Données de vol pour Casablanca vers Calvi : 2024-01-10: Casablanca --> Calvi
+2024-01-21: Calvi --> Casablanca
+2024-01-09 13:53:37,968 - INFO - Start Scrapping Data at 2024-01-09 13:53:37.968962
+2024-01-09 13:53:49,339 - ERROR - An error occurred in _parse_columns: list index out of range
+2024-01-09 13:53:49,343 - INFO - Data Retrieved Succefully 
+2024-01-09 13:53:49,346 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:53:49,347 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:53:49,347 - INFO - End Scrapping Data at 2024-01-09 13:53:49.346364. Elapsed Time: 0:00:11.377402
+2024-01-09 13:53:49,349 - INFO - Données de vol pour Casablanca vers Viviers-du-Lac : 2024-01-10: Casablanca --> Viviers-du-Lac
+2024-01-21: Viviers-du-Lac --> Casablanca
+2024-01-09 13:53:49,349 - INFO - Start Scrapping Data at 2024-01-09 13:53:49.349483
+2024-01-09 13:54:57,097 - ERROR - Timeout occurred during URL request in _make_url_request - TimeOutException: Message: 
+
+2024-01-09 13:54:57,361 - ERROR - An error occurred while getting results: Message: 
+
+2024-01-09 13:54:57,361 - ERROR - Un délai d'attente s'est produit pendant la demande d'URL dans _make_url_request - TimeOutException : Message: 
+
+2024-01-09 13:54:57,361 - INFO - End Scrapping Data at 2024-01-09 13:54:57.361678. Elapsed Time: 0:01:08.012195
+2024-01-09 13:54:57,364 - INFO - Données de vol pour Casablanca vers Aurillac : 2024-01-10: Casablanca --> Aurillac
+2024-01-21: Aurillac --> Casablanca
+2024-01-09 13:54:57,364 - INFO - Start Scrapping Data at 2024-01-09 13:54:57.364598
+2024-01-09 13:56:07,714 - ERROR - Timeout occurred during URL request in _make_url_request - TimeOutException: Message: 
+
+2024-01-09 13:56:07,915 - ERROR - An error occurred while getting results: Message: 
+
+2024-01-09 13:56:07,915 - ERROR - Un délai d'attente s'est produit pendant la demande d'URL dans _make_url_request - TimeOutException : Message: 
+
+2024-01-09 13:56:07,916 - INFO - End Scrapping Data at 2024-01-09 13:56:07.916219. Elapsed Time: 0:01:10.551621
+2024-01-09 13:56:07,922 - INFO - Données de vol pour Casablanca vers Colmar : 2024-01-10: Casablanca --> Colmar
+2024-01-21: Colmar --> Casablanca
+2024-01-09 13:56:07,922 - INFO - Start Scrapping Data at 2024-01-09 13:56:07.922477
+2024-01-09 13:56:36,790 - INFO - Data Retrieved Succefully 
+2024-01-09 13:56:36,793 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:56:36,795 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:56:36,795 - INFO - End Scrapping Data at 2024-01-09 13:56:36.794061. Elapsed Time: 0:00:28.871584
+2024-01-09 13:56:36,797 - INFO - Données de vol pour Casablanca vers Merville : 2024-01-10: Casablanca --> Merville
+2024-01-21: Merville --> Casablanca
+2024-01-09 13:56:36,797 - INFO - Start Scrapping Data at 2024-01-09 13:56:36.797792
+2024-01-09 13:56:50,076 - ERROR - An error occurred in _parse_columns: list index out of range
+2024-01-09 13:56:50,079 - INFO - Data Retrieved Succefully 
+2024-01-09 13:56:50,082 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:56:50,083 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:56:50,084 - INFO - End Scrapping Data at 2024-01-09 13:56:50.082203. Elapsed Time: 0:00:13.284411
+2024-01-09 13:56:50,085 - INFO - Données de vol pour Casablanca vers Megève : 2024-01-10: Casablanca --> Megève
+2024-01-21: Megève --> Casablanca
+2024-01-09 13:56:50,085 - INFO - Start Scrapping Data at 2024-01-09 13:56:50.085894
+2024-01-09 13:58:08,349 - ERROR - Timeout occurred during URL request in _make_url_request - TimeOutException: Message: 
+
+2024-01-09 13:58:08,486 - ERROR - An error occurred while getting results: Message: 
+
+2024-01-09 13:58:08,486 - ERROR - Un délai d'attente s'est produit pendant la demande d'URL dans _make_url_request - TimeOutException : Message: 
+
+2024-01-09 13:58:08,487 - INFO - End Scrapping Data at 2024-01-09 13:58:08.487689. Elapsed Time: 0:01:18.401795
+2024-01-09 13:58:08,493 - INFO - Données de vol pour Casablanca vers Portiragnes : 2024-01-10: Casablanca --> Portiragnes
+2024-01-21: Portiragnes --> Casablanca
+2024-01-09 13:58:08,493 - INFO - Start Scrapping Data at 2024-01-09 13:58:08.493646
+2024-01-09 13:58:25,063 - INFO - Data Retrieved Succefully 
+2024-01-09 13:58:25,071 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:58:25,074 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:58:25,075 - INFO - End Scrapping Data at 2024-01-09 13:58:25.072002. Elapsed Time: 0:00:16.578356
+2024-01-09 13:58:25,077 - INFO - Données de vol pour Casablanca vers Ouges : 2024-01-10: Casablanca --> Ouges
+2024-01-21: Ouges --> Casablanca
+2024-01-09 13:58:25,077 - INFO - Start Scrapping Data at 2024-01-09 13:58:25.077430
+2024-01-09 13:58:43,208 - ERROR - An error occurred in _parse_columns: list index out of range
+2024-01-09 13:58:43,211 - INFO - Data Retrieved Succefully 
+2024-01-09 13:58:43,213 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:58:43,215 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:58:43,216 - INFO - End Scrapping Data at 2024-01-09 13:58:43.213973. Elapsed Time: 0:00:18.136543
+2024-01-09 13:58:43,217 - INFO - Données de vol pour Casablanca vers Saint-Léger-sur-Roanne : 2024-01-10: Casablanca --> Saint-Léger-sur-Roanne
+2024-01-21: Saint-Léger-sur-Roanne --> Casablanca
+2024-01-09 13:58:43,217 - INFO - Start Scrapping Data at 2024-01-09 13:58:43.217211
+2024-01-09 13:58:58,148 - INFO - Data Retrieved Succefully 
+2024-01-09 13:58:58,153 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:58:58,158 - INFO - Données ajoutées au fichier CSV : data_collection/collected_data/flights/flights.csv
+2024-01-09 13:58:58,158 - INFO - End Scrapping Data at 2024-01-09 13:58:58.153486. Elapsed Time: 0:00:14.936275
+2024-01-09 13:58:58,161 - INFO - Données de vol pour Casablanca vers Tavaux : 2024-01-10: Casablanca --> Tavaux
+2024-01-21: Tavaux --> Casablanca
+2024-01-09 13:58:58,161 - INFO - Start Scrapping Data at 2024-01-09 13:58:58.161852
+2024-01-09 13:59:40,800 - ERROR - An error occurred during URL request in _make_url_request: _save_data_on_exit() takes 1 positional argument but 3 were given
+2024-01-09 13:59:40,803 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ProtocolError('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))': /session/4e6417e88d80c986fd38b7348eaec83d
+2024-01-09 13:59:40,804 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f90a16daeb0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/4e6417e88d80c986fd38b7348eaec83d
+2024-01-09 13:59:40,805 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f90a16c57f0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/4e6417e88d80c986fd38b7348eaec83d
+2024-01-09 13:59:40,807 - ERROR - An error occurred while getting results: _save_data_on_exit() takes 1 positional argument but 3 were given
+2024-01-09 13:59:40,807 - ERROR - An error occurred during data scraping: _save_data_on_exit() takes 1 positional argument but 3 were given
+2024-01-09 13:59:40,807 - INFO - End Scrapping Data at 2024-01-09 13:59:40.807666. Elapsed Time: 0:00:42.645814
+2024-01-09 13:59:40,807 - ERROR - Une erreur s'est produite pendant la collecte des données de vol : _save_data_on_exit() takes 1 positional argument but 3 were given
