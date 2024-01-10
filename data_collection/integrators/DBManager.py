@@ -73,10 +73,10 @@ class DBManager:
 # Exemple d'utilisation de la classe DBManager
 if __name__ == "__main__":
     # Remplacez ces valeurs par les informations de votre base de données
-    server = 'your_server'
-    database = 'your_database'
-    username = 'your_username'
-    password = 'your_password'
+    server = 'AYMANESABRI37A4\SQLEXPRESS'
+    database = 'Flights_StagingArea_DB'
+    username = 'AymaneSari'
+    password = ''
 
     # Création d'une instance de DBManager
     db_manager = DBManager(server, database, username, password)
