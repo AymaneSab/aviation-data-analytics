@@ -5,6 +5,8 @@ from selenium.webdriver.common.by import By
 from datetime import date, datetime
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from sqlalchemy import create_engine
+import mysql.connector
 import numpy as np
 import pandas as pd
 import os
@@ -132,16 +134,6 @@ class _Scrape:
         scraper operations - Functions .
     '''
 
-    def _save_data_on_exit(self):
-        if self._data is not None:
-            csv_directory = "data_collection/collected_data/flights"
-            os.makedirs(csv_directory, exist_ok=True) 
-
-            csv_filepath = csv_directory + "/flights.csv"
-            # Ajouter le paramètre mode='a' pour append
-            self._data.to_csv(csv_filepath, index=False, mode='a', header=not os.path.exists(csv_filepath))
-            self.logger.info(f"Données ajoutées au fichier CSV : {csv_filepath}")
-
     def _scrape_data(self):
         try:
             start_time = datetime.now()
@@ -150,9 +142,8 @@ class _Scrape:
             url = self._make_url()
             if url:
                 self._data = self._get_results(url)
-                self.logger.info("Data Retrieved Succefully ")
-                self._save_data_on_exit()
-
+                return self._data
+            
         except KeyboardInterrupt:
             self.logger.info("Programme interrompu par l'utilisateur .... Saving the current data ")
             raise
@@ -164,7 +155,6 @@ class _Scrape:
             raise
         finally:
             end_time = datetime.now()
-            self._save_data_on_exit()
             self.logger.info("End Scrapping Data at {}. Elapsed Time: {}".format(end_time, end_time - start_time))
 
     def _make_url(self):

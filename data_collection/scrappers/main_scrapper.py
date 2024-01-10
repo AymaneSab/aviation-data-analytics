@@ -36,21 +36,18 @@ class Flights_Scrapper:
             self.logger.info(f"Villes de destination avec des aéroports : {destination_cities}")
 
             # Collectez les données de vol pour chaque combinaison de ville de départ et de destination
-            all_flights_data = []
             for departure_city in departure_cities:
                 for destination_city in destination_cities:                    
                     flights_data = self.scraper(departure_city, destination_city, start_date, end_date)
+                    # Producer  
 
+                    
                     if flights_data:
                         self.logger.info(f"Données de vol pour {departure_city} vers {destination_city} : {flights_data}")
-                        all_flights_data.append(flights_data)
                     else:
                         self.logger.warning(f"Aucune donnée de vol trouvée pour {departure_city} vers {destination_city}")
 
-            if all_flights_data:
-                self.logger.info("La collecte des données de vol est terminée. Résultat :")
-
-            return all_flights_data
+            self.logger.info("La collecte des données de vol est terminée. Résultat :")
 
         except Exception as e:
             self.logger.error(f"Une erreur s'est produite pendant la collecte des données de vol : {str(e)}")
@@ -68,9 +65,10 @@ class Flights_Scrapper:
 
 try:
     airports_csv_path = '/Users/sabri/Desktop/Study /Youcode/Github/aviation-data-analytics/data_collection/data_sources/airport_info.csv'
+    
     flights_scrapper = Flights_Scrapper(airports_csv_path)
-    result = flights_scrapper.collect_flights_data('Morocco', 'France', '2024-01-10', '2024-01-21')
 
+    flights_scrapper.collect_flights_data('Morocco', 'France', '2024-01-10', '2024-01-21')
 except Exception as e:
     print(f"{e}")
 
