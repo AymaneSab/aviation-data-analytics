@@ -22,13 +22,8 @@ class DepartureScrapper:
 
     def get_departures(self):
         try:
-            departures = self.api.get_departures_by_airport(str(self.airport_icao), int(self.from_date), int(self.to_date))
-            print(departures)
-
-            if departures:
-                # Assuming your table name is 'Departures'
-                table_name = "AirportDepartures"
-                columns_definition = '''
+            table_name = "AirportDepartures"
+            columns_definition = '''
                     icao24 NVARCHAR(24),
                     first_seen INT,
                     est_departure_airport NVARCHAR(10),
@@ -42,11 +37,12 @@ class DepartureScrapper:
                     departure_airport_candidates_count INT,
                     arrival_airport_candidates_count INT
                 '''
+            # Create the table if it doesn't exist
+            self.db_manager.create_table_if_not_exists(table_name, columns_definition)
+            self.logger.info(f"{table_name} ----- Table created succefully ")
 
-                # Create the table if it doesn't exist
-                self.db_manager.create_table_if_not_exists(table_name, columns_definition)
-                self.logger.innfo(f"{table_name} ----- Table created succefully ")
-
+            departures = self.api.get_departures_by_airport(str(self.airport_icao), int(self.from_date), int(self.to_date))
+            if departures:
                 # Insert departures into the database
                 for departure in departures:
                     values = ', '.join([f"'{departure[key]}'" for key in departure.keys()])
