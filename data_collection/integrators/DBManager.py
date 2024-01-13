@@ -36,7 +36,7 @@ class DBManager:
     def connect(self):
         try:
             # Connexion à la base de données SQL Server
-            self.connection = pyodbc.connect(f'DRIVER={{SQL Server}};SERVER={self.server};DATABASE={self.database};UID={self.username};PWD={self.password}')
+            self.connection = pyodbc.connect(f'DRIVER=ODBC Driver 17 for SQL Server;SERVER={self.server};DATABASE={self.database};UID={self.username};PWD={self.password}')
             self.cursor = self.connection.cursor()
             self.log_info("Connexion réussie à la base de données.")
         except Exception as e:
@@ -70,42 +70,3 @@ class DBManager:
             self.log_error(f"Erreur lors de la création de la table '{table_name}' : {e}")
             raise  # Renvoyer l'exception pour signaler l'erreur à l'appelant
 
-# Exemple d'utilisation de la classe DBManager
-if __name__ == "__main__":
-    # Remplacez ces valeurs par les informations de votre base de données
-    server = 'AYMANESABRI37A4\SQLEXPRESS'
-    database = 'Flights_StagingArea_DB'
-    username = 'AymaneSari'
-    password = ''
-
-    # Création d'une instance de DBManager
-    db_manager = DBManager(server, database, username, password)
-
-    # Connexion à la base de données
-    db_manager.connect()
-
-    # Exemple de création de table
-    table_name = 'Departures'
-    columns_definition = '''
-        icao24 NVARCHAR(255),
-        callsign NVARCHAR(255),
-        origin_country NVARCHAR(255),
-        time_position INT,
-        last_contact INT,
-        longitude FLOAT,
-        latitude FLOAT,
-        altitude FLOAT,
-        on_ground BIT,
-        velocity FLOAT,
-        heading FLOAT,
-        vertical_rate FLOAT,
-        sensors INT,
-        baro_altitude FLOAT,
-        squawk NVARCHAR(255),
-        spi BIT,
-        position_source INT
-    '''
-    db_manager.create_table_if_not_exists(table_name, columns_definition)
-
-    # Fermeture de la connexion à la base de données
-    db_manager.close()
