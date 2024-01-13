@@ -5,8 +5,6 @@ from selenium.webdriver.common.by import By
 from datetime import date, datetime
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
-from sqlalchemy import create_engine
-import mysql.connector
 import numpy as np
 import pandas as pd
 import os
@@ -23,14 +21,13 @@ class _Scrape:
         self._dest = None
         self._date_leave = None
         self._date_return = None
-        self._data = pd.DataFrame()  # Set a default empty DataFrame
+        self._data = None  # Set a default empty DataFrame
         self.logger = self.setup_logging()
-
-        signal.signal(signal.SIGINT, self._save_data_on_exit)
 
     def setup_logging(self):
         log_directory = "Log/Flights_DataCollection"
         os.makedirs(log_directory, exist_ok=True)
+
         log_filepath = os.path.join(log_directory, "Logs.log")
 
         logging.basicConfig(filename=log_filepath, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -249,9 +246,6 @@ class _Scrape:
             # Propager l'exception pour une gestion ultérieure si nécessaire
             raise
 
-        # Si aucune exception n'est levée, retourner une liste vide
-        return []
-
     @staticmethod
     def _get_info(self,result):
         try:
@@ -356,11 +350,10 @@ class _Scrape:
                         'Access Date': date.today().strftime('%Y-%m-%d')
                     })
 
+            return flight_data
+
         except (ValueError, IndexError) as e:
             logging.error(f"An error occurred in _parse_columns: {e}")
-
-        df = pd.DataFrame(flight_data)
-        return df
 
 
 
