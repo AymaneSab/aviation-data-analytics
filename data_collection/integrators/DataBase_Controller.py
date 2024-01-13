@@ -1,3 +1,4 @@
+
 import os
 import logging
 import datetime
@@ -5,6 +6,7 @@ import atexit
 import pyodbc
 
 class DBManager:
+
     def __init__(self, server, database, username, password):
         self.server = server
         self.database = database
@@ -15,7 +17,7 @@ class DBManager:
         self.logger = self.setup_logging()
 
     def setup_logging(self):
-        log_directory = "Log/AirPorts_DataCollection"
+        log_directory = "Log/DataBase_Controller"
         os.makedirs(log_directory, exist_ok=True)
         log_filename = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S.log")
         log_filepath = os.path.join(log_directory, log_filename)
@@ -70,3 +72,12 @@ class DBManager:
             self.log_error(f"Erreur lors de la création de la table '{table_name}' : {e}")
             raise  # Renvoyer l'exception pour signaler l'erreur à l'appelant
 
+    def insert_data(self, table_name, values):
+        try:
+            # Inserting data into the specified table
+            self.cursor.execute(f"INSERT INTO {table_name} VALUES {values}")
+            self.connection.commit()
+            self.log_info(f"Data inserted into the table '{table_name}' successfully.")
+        except Exception as e:
+            self.log_error(f"Error inserting data into table '{table_name}': {e}")
+            raise  # Raise the exception to signal the error to the caller
