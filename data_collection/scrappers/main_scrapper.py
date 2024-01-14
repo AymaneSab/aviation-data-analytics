@@ -68,7 +68,6 @@ class Flights_Scrapper:
 
                         for data_point in flights_data:
                             self.logger.info(data_point)
-                            query = "INSERT INTO FlightsData VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
                             values = (
                                 data_point['Leave Date'],
                                 data_point['Return Date'],
@@ -87,7 +86,7 @@ class Flights_Scrapper:
                                 data_point['Trip Type'],
                                 data_point['Access Date']
                             )
-                            self.db_manager.insert_data(query, values)
+                            self.db_manager.insert_data(table_name, values)
                     else:
                         self.logger.warning(f"No flight data found for {departure_city} to {destination_city}")
 
@@ -116,7 +115,7 @@ try:
 
     flights_scrapper = Flights_Scrapper(airports_csv_path, db_manager)
 
-    flights_scrapper.collect_flights_data('Morocco', 'France', '2024-01-10', '2024-01-21')
+    flights_scrapper.collect_flights_data('Morocco', 'France', '2024-01-15', '2024-01-17')
 
 except Exception as e:
     print(f"{e}")
