@@ -74,10 +74,11 @@ class DBManager:
 
     def insert_data(self, table_name, values):
         try:
-            # Inserting data into the specified table
-            self.cursor.execute(f"INSERT INTO {table_name} VALUES {values}")
+            placeholders = ', '.join(['?' for _ in values])
+            query = f"INSERT INTO {table_name} VALUES ({placeholders});"
+            self.cursor.execute(query, values)
             self.connection.commit()
             self.log_info(f"Data inserted into the table '{table_name}' successfully.")
         except Exception as e:
             self.log_error(f"Error inserting data into table '{table_name}': {e}")
-            raise  # Raise the exception to signal the error to the caller
+            raise
