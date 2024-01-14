@@ -20,10 +20,10 @@ class Flights_Scrapper:
         self.db_manager = db_manager
 
     def setup_logging(self):
-        log_directory = "Log/Flights_Scrapper"
+        log_directory = "Log/Main_Flights_Scrapper"
+
         os.makedirs(log_directory, exist_ok=True)
-        log_filename = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S.log")
-        log_filepath = os.path.join(log_directory, log_filename)
+        log_filepath = os.path.join(log_directory, "Flights_Scrapper_Logs.log")
 
         logging.basicConfig(filename=log_filepath, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -35,14 +35,15 @@ class Flights_Scrapper:
     def collect_flights_data(self, from_country, to_country, start_date, end_date):
         try:
             departure_cities = self.get_airport_cities(from_country)
-            self.logger.info(f"Departure cities with airports: {departure_cities}")
+            self.logger.info(f"\n\n\nDeparture cities with airports: {departure_cities}")
 
             destination_cities = self.get_airport_cities(to_country)
             self.logger.info(f"Destination cities with airports: {destination_cities}")
 
             for departure_city in departure_cities:
                 for destination_city in destination_cities:
-                    flights_data = self.scraper(departure_city, destination_city, start_date, end_date).data  # Access the 'data' attribute
+                    flights_data = self.scraper(departure_city, destination_city, start_date, end_date).data  
+
                     if flights_data:
                         self.logger.info(f"Flight data for {departure_city} to {destination_city}: {flights_data}")
                         table_name = 'FlightsData'
@@ -95,6 +96,7 @@ class Flights_Scrapper:
 
         except Exception as e:
             self.logger.error(f"An error occurred during flight data collection: {str(e)}")
+            pass
 
     def get_airport_cities(self, country):
         try:

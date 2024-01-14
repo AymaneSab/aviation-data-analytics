@@ -19,8 +19,7 @@ class DBManager:
     def setup_logging(self):
         log_directory = "Log/DataBase_Controller"
         os.makedirs(log_directory, exist_ok=True)
-        log_filename = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S.log")
-        log_filepath = os.path.join(log_directory, log_filename)
+        log_filepath = os.path.join(log_directory, "DB_Manager_Logs.log")
 
         logging.basicConfig(filename=log_filepath, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -78,7 +77,6 @@ class DBManager:
             query = f"INSERT INTO {table_name} VALUES ({placeholders});"
             self.cursor.execute(query, values)
             self.connection.commit()
-            self.log_info(f"Data inserted into the table '{table_name}' successfully.")
         except Exception as e:
             self.log_error(f"Error inserting data into table '{table_name}': {e}")
-            raise
+            pass

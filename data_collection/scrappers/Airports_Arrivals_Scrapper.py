@@ -9,17 +9,22 @@ sys.path.append('/Users/sabri/Desktop/Study /Youcode/Github/aviation-data-analyt
 from DataBase_Controller import DBManager
 from opensky_api import OpenSkyApi
 
-class DepartureScrapper:
+class ArrivalsScrapper:
 
-    def __init__(self, airport_icao, from_date, to_date, db_server, db_database, db_username, db_password):
+    def __init__(self, airport_icao, from_date_str, to_date_str, db_server, db_database, db_username, db_password):
         self.airport_icao = airport_icao
-        self.from_date = datetime.datetime.strptime(from_date, "%Y-%m-%d").timestamp()
-        self.to_date = datetime.datetime.strptime(to_date, "%Y-%m-%d").timestamp()
+        self.from_date_str = from_date_str
+        self.to_date_str = to_date_str
         self.api = OpenSkyApi()
         self.db_manager = DBManager(db_server, db_database, db_username, db_password)
-        self.logger  = DBManager.setup_logging(self)
+        self.logger = DBManager.setup_logging(self)
         self.db_manager.connect()
 
+    def _convert_to_unix_time(self, date_str):
+        # Convert 'yyyy-MM-dd' to Unix time (seconds since epoch)
+        date_object = datetime.datetime.strptime(date_str, '%Y-%m-%d')
+        return int(date_object.timestamp())
+    
     def get_arrivals(self):
         try:
             table_name = "AirportArrivals"
@@ -41,15 +46,47 @@ class DepartureScrapper:
             self.db_manager.create_table_if_not_exists(table_name, columns_definition)
             self.logger.info(f"{table_name} ----- Table created succefully ")
 
-            arrivals = self.api.get_arrivals_by_airport(str(self.airport_icao), int(self.from_date), int(self.to_date))
+            # Convert date strings to Unix time
+            from_date_unix = self._convert_to_unix_time(self.from_date_str)
+            to_date_unix = self._convert_to_unix_time(self.to_date_str)
+
+            arrivals = self.api.get_arrivals_by_airport(str(self.airport_icao), from_date_unix, to_date_unix)
+            self.logger.info(f"Example Data  : {arrivals}")
+
             if arrivals:
                 # Insert departures into the database
-                for arrival in arrivals:
-                    values = ', '.join([f"'{arrival[key]}'" for key in arrival.keys()])
-                    self.db_manager.cursor.execute(f"INSERT INTO {table_name} VALUES ({values})")
+                for arrival_data in arrivals:
+                    icao24 = arrival_data.icao24
+                    first_seen = arrival_data.firstSeen  # Correct attribute name
+                    est_departure_airport = arrival_data.estDepartureAirport
+                    last_seen = arrival_data.lastSeen  # Correct attribute name
+                    est_arrival_airport = arrival_data.estArrivalAirport
+                    callsign = arrival_data.callsign
+                    est_departure_airport_horiz_distance = arrival_data.estDepartureAirportHorizDistance
+                    est_departure_airport_vert_distance = arrival_data.estDepartureAirportVertDistance
+                    est_arrival_airport_horiz_distance = arrival_data.estArrivalAirportHorizDistance
+                    est_arrival_airport_vert_distance = arrival_data.estArrivalAirportVertDistance
+                    departure_airport_candidates_count = arrival_data.departureAirportCandidatesCount
+                    arrival_airport_candidates_count = arrival_data.arrivalAirportCandidatesCount
+
+                    values = (
+                        icao24,
+                        first_seen,
+                        est_departure_airport,
+                        last_seen,
+                        est_arrival_airport,
+                        callsign,
+                        est_departure_airport_horiz_distance,
+                        est_departure_airport_vert_distance,
+                        est_arrival_airport_horiz_distance,
+                        est_arrival_airport_vert_distance,
+                        departure_airport_candidates_count,
+                        arrival_airport_candidates_count
+                    )
+                    self.db_manager.insert_data(table_name, values)
 
                 self.db_manager.connection.commit()
-                self.logger.info(f"{len(arrivals)} arrivals saved to the database.")
+                self.logger.info(f"{len(arrivals)} departures saved to the database.")
 
         except Exception as e:
             self.logger.error(f"An error occurred: {e}")
@@ -58,6 +95,6 @@ class DepartureScrapper:
             self.db_manager.close()
 
 # Example usage:
-scrapper = DepartureScrapper('EDDF', '2024-01-10', '2024-01-11', '10.211.55.3', 'Flights_StagingArea_DB', 'Database_Administrator', 'AllahSave.1234/')
+scrapper = ArrivalsScrapper('EDDF', '2023-01-29', '2023-01-30', '10.211.55.3', 'Flights_StagingArea_DB', 'Database_Administrator', 'AllahSave.1234/')
 
-scrapper.get_departures()
+scrapper.get_arrivals()
