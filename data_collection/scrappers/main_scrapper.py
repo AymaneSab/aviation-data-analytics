@@ -1,7 +1,7 @@
 import atexit
 import os
 import logging
-import datetime
+from datetime import datetime, timedelta 
 import pandas as pd
 import sys
 from Airport_departure_Scrapper import DepartureScrapper
@@ -126,7 +126,7 @@ class Flights_Scrapper:
     def  create_table(self , table_name , columns_definition):
         self.db_manager.create_table_if_not_exists(table_name, columns_definition)
 
-    def getDayFlights(self, airports_csv_path , origin , destinnation , from_date , to_date , server , database , username ,  password ):
+    def getDayFlights(airports_csv_path , origin , destinnation , from_date , to_date , server , database , username ,  password ):
         try:
             airports_csv_path = airports_csv_path
             
@@ -150,7 +150,7 @@ try:
     origin = 'Morocco'
     destinnation = 'France'
     from_date = datetime.now().strftime('%Y-%m-%d')
-    to_date = (datetime.now() + datetime.timedelta(days=1)).strftime('%Y-%m-%d')
+    to_date = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')  # Corrected line
     server = '10.211.55.3'
     database = 'Flights_StagingArea_DB'
     username = 'Database_Administrator'
