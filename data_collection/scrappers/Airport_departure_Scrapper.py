@@ -17,8 +17,26 @@ class DepartureScrapper:
         self.to_date_str = to_date_str
         self.api = OpenSkyApi()
         self.db_manager = DBManager(db_server, db_database, db_username, db_password)
-        self.logger = DBManager.setup_logging(self)
+        self.logger = self.setup_logging("Log/AirportDeparture_Scrapper" , "Log.log")
         self.db_manager.connect()
+
+    def setup_logging(self, log_directory, logger_name):
+        os.makedirs(log_directory, exist_ok=True)
+
+        log_filename = logger_name
+        log_filepath = os.path.join(log_directory, log_filename)
+
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+
+        handler = logging.FileHandler(log_filepath)
+        handler.setLevel(logging.INFO)
+        handler.setFormatter(formatter)
+
+        logger = logging.getLogger(log_filename)
+        logger.setLevel(logging.INFO)
+        logger.addHandler(handler)
+
+        return logger
 
     def _convert_to_unix_time(self, date_str):
         # Convert 'yyyy-MM-dd' to Unix time (seconds since epoch)
@@ -95,5 +113,9 @@ class DepartureScrapper:
             self.db_manager.close()
 
 # Example usage:
-scrapper = DepartureScrapper('EDDF', '2023-01-29', '2023-01-30', '10.211.55.3', 'Flights_StagingArea_DB', 'Database_Administrator', 'AllahSave.1234/')
+scrapper = DepartureScrapper('CYGW', '2023-01-15', '2023-01-20', '10.211.55.3', 'Flights_StagingArea_DB', 'Database_Administrator', 'AllahSave.1234/')
 scrapper.get_departures()
+
+
+
+        

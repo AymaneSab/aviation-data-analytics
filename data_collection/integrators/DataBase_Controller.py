@@ -1,9 +1,10 @@
 
 import os
 import logging
-import datetime
 import atexit
 import pyodbc
+from datetime  import  datetime
+
 
 class DBManager:
 
@@ -14,17 +15,24 @@ class DBManager:
         self.password = password
         self.connection = None
         self.cursor = None
-        self.logger = self.setup_logging()
+        self.logger = self.setup_dbmanager_logging("Log/DBManager", "DBManager.log")
 
-    def setup_logging(self):
-        log_directory = "Log/DataBase_Controller"
+    def setup_dbmanager_logging(self ,log_directory, logger_name):
+       
         os.makedirs(log_directory, exist_ok=True)
-        log_filepath = os.path.join(log_directory, "DB_Manager_Logs.log")
 
-        logging.basicConfig(filename=log_filepath, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        log_filename = logger_name
+        log_filepath = os.path.join(log_directory, log_filename)
 
-        logger = logging.getLogger(__name__)
-        atexit.register(logging.shutdown)  # Ensure proper shutdown of the logger
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+
+        handler = logging.FileHandler(log_filepath)
+        handler.setLevel(logging.INFO)
+        handler.setFormatter(formatter)
+
+        logger = logging.getLogger(log_filename)
+        logger.setLevel(logging.INFO)
+        logger.addHandler(handler)
 
         return logger
 
@@ -39,7 +47,8 @@ class DBManager:
             # Connexion à la base de données SQL Server
             self.connection = pyodbc.connect(f'DRIVER=ODBC Driver 17 for SQL Server;SERVER={self.server};DATABASE={self.database};UID={self.username};PWD={self.password}')
             self.cursor = self.connection.cursor()
-            self.log_info("Connexion réussie à la base de données.")
+            self.log_info("Connexion réussie à la base de données")
+
         except Exception as e:
             self.log_error(f"Erreur lors de la connexion à la base de données : {e}")
 
@@ -66,7 +75,6 @@ class DBManager:
                 END
             ''')
             self.connection.commit()
-            self.log_info(f"Table '{table_name}' créée avec succès.")
         except Exception as e:
             self.log_error(f"Erreur lors de la création de la table '{table_name}' : {e}")
             raise  # Renvoyer l'exception pour signaler l'erreur à l'appelant
@@ -77,6 +85,8 @@ class DBManager:
             query = f"INSERT INTO {table_name} VALUES ({placeholders});"
             self.cursor.execute(query, values)
             self.connection.commit()
+            self.log_info(f"Data Inserted Succefully into table : {table_name}")
+
         except Exception as e:
             self.log_error(f"Error inserting data into table '{table_name}': {e}")
             pass

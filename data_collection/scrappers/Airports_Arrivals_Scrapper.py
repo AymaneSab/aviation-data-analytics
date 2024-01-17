@@ -15,10 +15,28 @@ class ArrivalsScrapper:
         self.airport_icao = airport_icao
         self.from_date_str = from_date_str
         self.to_date_str = to_date_str
+        self.logger = self.setup_logging("Log/Airports_arrivals_Scrapper", "Log.log")
         self.api = OpenSkyApi()
         self.db_manager = DBManager(db_server, db_database, db_username, db_password)
-        self.logger = DBManager.setup_logging(self)
         self.db_manager.connect()
+
+    def setup_logging(self, log_directory, logger_name):
+        os.makedirs(log_directory, exist_ok=True)
+
+        log_filename = logger_name
+        log_filepath = os.path.join(log_directory, log_filename)
+
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+
+        handler = logging.FileHandler(log_filepath)
+        handler.setLevel(logging.INFO)
+        handler.setFormatter(formatter)
+
+        logger = logging.getLogger(log_filename)
+        logger.setLevel(logging.INFO)
+        logger.addHandler(handler)
+
+        return logger
 
     def _convert_to_unix_time(self, date_str):
         # Convert 'yyyy-MM-dd' to Unix time (seconds since epoch)
@@ -44,14 +62,13 @@ class ArrivalsScrapper:
                 '''
             # Create the table if it doesn't exist
             self.db_manager.create_table_if_not_exists(table_name, columns_definition)
-            self.logger.info(f"{table_name} ----- Table created succefully ")
 
             # Convert date strings to Unix time
             from_date_unix = self._convert_to_unix_time(self.from_date_str)
             to_date_unix = self._convert_to_unix_time(self.to_date_str)
 
             arrivals = self.api.get_arrivals_by_airport(str(self.airport_icao), from_date_unix, to_date_unix)
-            self.logger.info(f"Example Data  : {arrivals}")
+            self.logger.info(f"arrivals Data Returned Successfully: {len(arrivals)} arrivals found.")
 
             if arrivals:
                 # Insert departures into the database
@@ -94,7 +111,5 @@ class ArrivalsScrapper:
         finally:
             self.db_manager.close()
 
-# Example usage:
-scrapper = ArrivalsScrapper('EDDF', '2023-01-29', '2023-01-30', '10.211.55.3', 'Flights_StagingArea_DB', 'Database_Administrator', 'AllahSave.1234/')
 
-scrapper.get_arrivals()
+

@@ -22,18 +22,23 @@ class _Scrape:
         self._date_leave = None
         self._date_return = None
         self._data = None  # Set a default empty DataFrame
-        self.logger = self.setup_logging()
+        self.logger = self.setup_Scrapping_logging("Log/Flights_Scrapper" , "Flight_We_Scrapper.log")
 
-    def setup_logging(self):
-        log_directory = "Log/Flights_DataCollection"
+    def setup_Scrapping_logging(self, log_directory, logger_name):
         os.makedirs(log_directory, exist_ok=True)
 
-        log_filepath = os.path.join(log_directory, "Logs.log")
+        log_filename = logger_name
+        log_filepath = os.path.join(log_directory, log_filename)
 
-        logging.basicConfig(filename=log_filepath, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 
-        logger = logging.getLogger(__name__)
-        atexit.register(logging.shutdown) 
+        handler = logging.FileHandler(log_filepath)
+        handler.setLevel(logging.INFO)
+        handler.setFormatter(formatter)
+
+        logger = logging.getLogger(log_filename)
+        logger.setLevel(logging.INFO)
+        logger.addHandler(handler)
 
         return logger
 
@@ -133,14 +138,12 @@ class _Scrape:
 
     def _scrape_data(self):
         try:
-            start_time = datetime.now()
-            self.logger.info("Start Scrapping Data at {}".format(start_time) )
-
             url = self._make_url()
             if url:
                 self._data = self._get_results(url)
+                self.logger.info("_scrape_data Succed")
                 return self._data
-            
+
         except KeyboardInterrupt:
             self.logger.info("Programme interrompu par l'utilisateur .... Saving the current data ")
             raise
@@ -150,19 +153,18 @@ class _Scrape:
         except Exception as e:
             self.logger.error(f"An error occurred during data scraping: {e}")
             raise
-        finally:
-            end_time = datetime.now()
-            self.logger.info("End Scrapping Data at {}. Elapsed Time: {}".format(end_time, end_time - start_time))
 
     def _make_url(self):
         try:
-            return 'https://www.google.com/travel/flights?q=Flights%20to%20{dest}%20from%20{org}%20on%20{dl}%20through%20{dr}'.format(
+            url = 'https://www.google.com/travel/flights?q=Flights%20to%20{dest}%20from%20{org}%20on%20{dl}%20through%20{dr}'.format(
                 dest=self._dest,        # Destination 
                 org=self._origin,       # Origin
                 dl=self._date_leave,    # date leave
                 dr=self._date_return    # date return 
             )
-        
+            self.logger.info("_make_url Succed")
+            return url
+
         except Exception as e:
             self.logger.error(f"An error occurred while generating URL : {e}")
             raise
@@ -173,9 +175,9 @@ class _Scrape:
 
             if results:
                 flight_info = _Scrape._get_info(self , results)
-                partition = _Scrape._partition_info(flight_info)
+                partition = _Scrape._partition_info(self,flight_info)
                 flights_data = _Scrape._parse_columns(self , partition, self._date_leave, self._date_return)
-
+                self.logger.info("_get_results Succed")
                 return flights_data 
             
         except Exception as e:
@@ -197,6 +199,8 @@ class _Scrape:
             # Create a new instance of the Chrome driver with specified options and executable path
             driver = webdriver.Chrome(executable_path=chromedriver_path, options=chrome_options)
 
+            self.logger.info("_get_driver  Succed")
+
             return driver
         
         except WebDriverException as e:
@@ -217,6 +221,7 @@ class _Scrape:
             WebDriverWait(driver, timeout=60).until(lambda d: len(_Scrape._get_flight_elements(self,d)) > 100)
 
             results = _Scrape._get_flight_elements(self,driver)
+            self.logger.info("_make_url_request  Succed")
 
             return results
         
@@ -234,6 +239,8 @@ class _Scrape:
     def _get_flight_elements(self ,driver):
         try:
             flight_element = driver.find_element(by=By.XPATH, value='//body[@id = "yDmH0d"]').text.split('\n')
+            self.logger.info("_get_flight_elements  Succed")
+
             return flight_element
 
         except NoSuchElementException as nse:
@@ -261,6 +268,8 @@ class _Scrape:
 
                 if r == 'Sort by:':
                     collect = True
+                    
+            self.logger.info("_get_info  Succed")
 
             return info
 
@@ -270,7 +279,7 @@ class _Scrape:
             raise
 
     @staticmethod
-    def _partition_info(info):
+    def _partition_info(self,info):
         i, grouped = 0, []
         while i < len(info) - 1:
             j = i + 2
@@ -286,6 +295,7 @@ class _Scrape:
             grouped += [info[i:end]]
             i = end
 
+        self.logger.info("_partition_info  Succed")
         return grouped
 
     @staticmethod
@@ -298,6 +308,7 @@ class _Scrape:
 
         if x[-2:] == 'AM' or x[-2:] == 'PM':
             return True
+        
         return False
 
     @staticmethod
@@ -305,55 +316,88 @@ class _Scrape:
         flight_data = []  # List to store dictionaries representing each flight
 
         try:
+            # Instantiate empty column arrays
+            depart_time = None
+            arrival_time = None
+            airline = None
+            travel_time = None
+            origin =None
+            dest = None
+            stops = None
+            stop_time = None
+            stop_location = None
+            co2_emission = None
+            emission = None
+            price = None
+            trip_type = None
+
+            self.logger.info(f"Data  Returned Of Length : {len(grouped)}")
+            # For each "flight"
             for g in grouped:
-                if len(g) >= 9:
-                    i_diff = 0
+                i_diff = 0 # int that checks if we need to jump ahead based on some conditions
 
-                    depart_time = g[0]
-                    arrival_time = g[1]
-                    i_diff += 1 if 'Separate tickets booked together' in g[2] else 0
+                # Get departure and arrival times
+                depart_time = g[0]
+                arrival_time = g[1]
 
-                    airline = g[2 + i_diff]
-                    travel_time = g[3 + i_diff]
-                    origin = g[4 + i_diff].split('–')[0]
-                    dest = g[4 + i_diff].split('–')[1]
+                # When this string shows up we jump ahead an index
+                i_diff += 1 if 'Separate tickets booked together' in g[2] else 0
 
-                    num_stops = 0 if 'Nonstop' in g[5 + i_diff] else int(g[5 + i_diff].split('stop')[0])
-                    stops = num_stops
+                # Add airline, travel time, origin, and dest
+                airline = g[2 + i_diff]
 
-                    stop_time = None if num_stops == 0 else (g[6 + i_diff].split('min')[0] if num_stops == 1 else None)
-                    stop_location = None if num_stops == 0 else (
-                        g[6 + i_diff].split('min')[1] if num_stops == 1 and 'min' in g[6 + i_diff] else [
-                            g[6 + i_diff].split('hr')[1] if 'hr' in g[6 + i_diff] and num_stops == 1 else g[6 + i_diff]])
+                travel_time = g[3 + i_diff]
+                origin = g[4 + i_diff].split('–')[0]
+                dest = g[4 + i_diff].split('–')[1]
 
-                    i_diff += 0 if num_stops == 0 else 1
+                # Grab the number of stops by splitting string
+                num_stops = 0 if 'Nonstop' in g[5 + i_diff] else int(g[5 + i_diff].split('stop')[0])
+                stops = num_stops
 
-                    price_str = g[8 + i_diff][3:] if len(g) > 8 + i_diff else ''
-                    price_value = ''.join(char for char in price_str if char.isdigit() or char == '.')
 
-                    flight_data.append({
-                        'Leave Date': date_leave,
-                        'Return Date': date_return,
-                        'Depart Time (Leg 1)': depart_time,
-                        'Arrival Time (Leg 1)': arrival_time,
-                        'Airline(s)': airline,
-                        'Travel Time': travel_time,
-                        'Origin': origin,
-                        'Destination': dest,
-                        'Num Stops': stops,
-                        'Layover Time': stop_time,
-                        'Stop Location': stop_location,
-                        'CO2 Emission': None,  # Fill in the appropriate value
-                        'Emission Avg Diff (%)': None,  # Fill in the appropriate value
-                        'Price ($)': price_value,
-                        'Trip Type': g[9 + i_diff] if len(g) > 9 + i_diff else '',
-                        'Access Date': date.today().strftime('%Y-%m-%d')
-                    })
+                # Add stop time/location given whether its nonstop flight or not
+                stop_time = None if num_stops == 0 else (g[6 + i_diff].split('min')[0] if num_stops == 1 else None)
+                stop_location = None if num_stops == 0 else (g[6 + i_diff].split('min')[1] if num_stops == 1 and 'min' in g[6 + i_diff] else [g[6 + i_diff].split('hr')[1] if 'hr' in g[6 + i_diff] and num_stops == 1 else g[6 + i_diff]])
+                # Jump ahead an index if flight isn't nonstop to accomodate for stop_time, stop_location
+                i_diff += 0 if num_stops == 0 else 1
+
+                # If Co2 emission not listed then we skip, else we add
+                if g[6 + i_diff] != '–':
+                    co2_emission = float(g[6 + i_diff].replace(',','').split(' kg')[0])
+                    emission = 0 if g[7 + i_diff] == 'Not Calculated' else str(g[7 + i_diff])
+                    price = g[8 + i_diff]
+                    trip_type = g[9 + i_diff]
+                else:
+                    co2_emission = None
+                    emission = None
+                    price = g[7 + i_diff]
+                    trip_type = g[7 + i_diff]
+
+                flight_data.append({
+                    'Leave Date': date_leave,
+                    'Return Date': date_return,
+                    'Depart Time (Leg 1)': depart_time,
+                    'Arrival Time (Leg 1)': arrival_time,
+                    'Airline(s)': airline,
+                    'Travel Time': travel_time,
+                    'Origin': origin,
+                    'Destination': dest,
+                    'Num Stops': stops,
+                    'Layover Time': stop_time,
+                    'Stop Location': stop_location,
+                    'CO2 Emission': co2_emission,  
+                    'Emission Avg Diff (%)': emission, 
+                    'Price ($)': price,
+                    'Trip Type': trip_type,
+                    'Access Date': date.today().strftime('%Y-%m-%d')
+                })
+                self.logger.info("One Element Added Succcefully")
 
             return flight_data
-
+        
         except (ValueError, IndexError) as e:
             logging.error(f"An error occurred in _parse_columns: {e}")
+            pass
 
 
 
