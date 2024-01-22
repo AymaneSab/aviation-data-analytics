@@ -72,12 +72,7 @@ class Flights_Scrapper:
                     self.logger.info(f"{departure_city}----------{destination_city}")
 
                     flights_data = self.scraper(departure_city, destination_city, start_date, end_date).data  
-<<<<<<< HEAD
                     self.logger.info(f"---------{flights_data}")
-=======
-                    
-                    self.logger.info(f"flights_data----------{flights_data}")
->>>>>>> 8690c067553e0be541b40af2c1d32aa5350c94af
 
                     if flights_data:
 
@@ -141,19 +136,11 @@ try:
 
     flights_scrapper = Flights_Scrapper(airports_csv_path, db_manager)
 
-<<<<<<< HEAD
     flights_scrapper.collect_flights_data('Morocco', 'France', '2024-01-28', '2024-01-31')
 
 except Exception as e:
     print(f"{e}")
     
-=======
-    flights_scrapper.collect_flights_data('Morocco', 'France', '2024-01-30', '2024-02-05')
-
-except Exception as e:
-    print(f"{e}")
-
->>>>>>> 8690c067553e0be541b40af2c1d32aa5350c94af
 finally:
     db_manager.close()
 
