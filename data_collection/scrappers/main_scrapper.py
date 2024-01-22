@@ -9,6 +9,7 @@ from Airports_Arrivals_Scrapper import ArrivalsScrapper
 from flights_data import _Scrape
 
 sys.path.append('/Users/sabri/Desktop/Study /Youcode/Github/aviation-data-analytics/data_collection/integrators/')
+
 from DataBase_Controller import DBManager
 
 class Flights_Scrapper:
@@ -16,7 +17,7 @@ class Flights_Scrapper:
     def __init__(self, airports_csv_path, db_manager):
         self.scraper = _Scrape()
         self.airports_data = pd.read_csv(airports_csv_path)
-        self.logger = self.setup_FlightsScrapper_logging("Log/Flights_Scrapper" , "atch_Flights_Scrapper.log")
+        self.logger = self.setup_FlightsScrapper_logging("Log/Flights_Scrapper" , "Batch_Flights_Scrapper.log")
         self.db_manager = db_manager
 
     def setup_FlightsScrapper_logging(self, log_directory, logger_name):
@@ -73,6 +74,7 @@ class Flights_Scrapper:
                     self.logger.info(f"{departure_city}----------{destination_city}")
 
                     flights_data = self.scraper(departure_city, destination_city, start_date, end_date).data  
+                    self.logger.info(f"---------{flights_data}")
 
                     if flights_data:
                         for data_point in flights_data:
@@ -96,6 +98,7 @@ class Flights_Scrapper:
                                 data_point['Trip Type'],
                                 data_point['Access Date']
                             )
+
                             self.db_manager.insert_data(table_name, values)
 
             self.logger.info("Collecte des données de vol terminée. Résultat : \n")
@@ -123,40 +126,22 @@ class Flights_Scrapper:
                 icao_codes.append(icao_code)
         return icao_codes
 
-    def  create_table(self , table_name , columns_definition):
+    def create_table(self , table_name , columns_definition):
         self.db_manager.create_table_if_not_exists(table_name, columns_definition)
 
-    def getDayFlights(airports_csv_path , origin , destinnation , from_date , to_date , server , database , username ,  password ):
-        try:
-            airports_csv_path = airports_csv_path
-            
-            db_manager = DBManager(server, database, username, password)
-            db_manager.connect()
-
-            flights_scrapper = Flights_Scrapper(airports_csv_path, db_manager)
-
-            flights_scrapper.collect_flights_data(origin, destinnation, from_date, to_date)
-
-        except Exception as e:
-            print(f"{e}")
-        finally:
-            db_manager.close()
-
-# Usage
 try:
-
     airports_csv_path = 'data_processing/Treated_data/treated_airport_data.csv'
+    
+    db_manager = DBManager('10.211.55.3', 'Flights_StagingArea_DB', 'Database_Administrator', 'AllahSave.1234/')
+    db_manager.connect()
 
-    origin = 'Morocco'
-    destinnation = 'France'
-    from_date = datetime.now().strftime('%Y-%m-%d')
-    to_date = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')  # Corrected line
-    server = '10.211.55.3'
-    database = 'Flights_StagingArea_DB'
-    username = 'Database_Administrator'
-    password = 'AllahSave.1234/'
+    flights_scrapper = Flights_Scrapper(airports_csv_path, db_manager)
 
-    Flights_Scrapper.getDayFlights(airports_csv_path , origin , destinnation , from_date , to_date , server , database , username ,  password)
+    flights_scrapper.collect_flights_data('Morocco', 'France', '2024-01-28', '2024-01-31')
 
 except Exception as e:
     print(f"{e}")
+    
+finally:
+    db_manager.close()
+

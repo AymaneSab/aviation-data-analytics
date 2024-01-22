@@ -1,4 +1,3 @@
-
 import os
 import logging
 import atexit
@@ -85,6 +84,7 @@ class DBManager:
             query = f"INSERT INTO {table_name} VALUES ({placeholders});"
             self.cursor.execute(query, values)
             self.connection.commit()
+            
             self.log_info(f"Data Inserted Succefully into table : {table_name}")
 
         except Exception as e:

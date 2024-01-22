@@ -22,7 +22,7 @@ class _Scrape:
         self._date_leave = None
         self._date_return = None
         self._data = None  # Set a default empty DataFrame
-        self.logger = self.setup_Scrapping_logging("Log/Flights_Scrapper" , "Flight_We_Scrapper.log")
+        self.logger = self.setup_Scrapping_logging("Log/Flights_Scrapper" , "Flight_Scrapper.log")
 
     def setup_Scrapping_logging(self, log_directory, logger_name):
         os.makedirs(log_directory, exist_ok=True)
@@ -172,17 +172,21 @@ class _Scrape:
     def _get_results(self, url):
         try:
             results = _Scrape._make_url_request(self ,url)
-
+            self.logger.info(f"results info : {results}")
             if results:
                 flight_info = _Scrape._get_info(self , results)
+                self.logger.info(f"flights info : {flight_info}")
+
                 partition = _Scrape._partition_info(self,flight_info)
+                self.logger.info(f"partition info : {partition}")
+
                 flights_data = _Scrape._parse_columns(self , partition, self._date_leave, self._date_return)
-                self.logger.info("_get_results Succed")
+                self.logger.info(f"flights_data info : {flights_data}")
                 return flights_data 
             
         except Exception as e:
             self.logger.error(f"An error occurred while getting results: {e}")
-            raise
+            pass
 
         return None
     
@@ -251,7 +255,7 @@ class _Scrape:
         except Exception as e:
             self.logger.error(f"Une erreur s'est produite dans _get_flight_elements : {e}")
             # Propager l'exception pour une gestion ultérieure si nécessaire
-            raise
+            pass
 
     @staticmethod
     def _get_info(self,result):
@@ -364,7 +368,9 @@ class _Scrape:
                 # If Co2 emission not listed then we skip, else we add
                 if g[6 + i_diff] != '–':
                     co2_emission = float(g[6 + i_diff].replace(',','').split(' kg')[0])
-                    emission = 0 if g[7 + i_diff] == 'Not Calculated' else str(g[7 + i_diff])
+                    self.logger.info(f"Length of g: {len(g)}, i_diff: {i_diff}")
+
+                    emission = 0 if g[7 + i_diff] == 'NotCalculated' else str(g[7 + i_diff])
                     price = g[8 + i_diff]
                     trip_type = g[9 + i_diff]
                 else:
@@ -391,13 +397,13 @@ class _Scrape:
                     'Trip Type': trip_type,
                     'Access Date': date.today().strftime('%Y-%m-%d')
                 })
+                
                 self.logger.info("One Element Added Succcefully")
 
             return flight_data
         
         except (ValueError, IndexError) as e:
-            logging.error(f"An error occurred in _parse_columns: {e}")
+            logging.error(f"An error occurred in _parse_columns: {e}, g: {g}, i_diff: {i_diff}")
             pass
-
 
 
