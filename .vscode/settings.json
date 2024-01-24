@@ -6,6 +6,7 @@
         "./traffic/src",
         "./opensky-api/python",
         "./usr/local/etc/",
-        "./data_collection/integrators"
+        "./data_collection/integrators",
+        "./data_processing/batch_processing"
     ]
 }

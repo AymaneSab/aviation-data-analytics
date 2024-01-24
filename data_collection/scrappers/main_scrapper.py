@@ -4,6 +4,8 @@ import logging
 from datetime import datetime, timedelta 
 import pandas as pd
 import sys
+from Airport_departure_Scrapper import DepartureScrapper
+from Airports_Arrivals_Scrapper import ArrivalsScrapper
 from flights_data import _Scrape
 
 sys.path.append('/Users/sabri/Desktop/Study /Youcode/Github/aviation-data-analytics/data_collection/integrators/')
@@ -75,7 +77,6 @@ class Flights_Scrapper:
                     self.logger.info(f"---------{flights_data}")
 
                     if flights_data:
-
                         for data_point in flights_data:
                             values = (
                                 data_point['Leave Date'],
@@ -136,11 +137,10 @@ try:
 
     flights_scrapper = Flights_Scrapper(airports_csv_path, db_manager)
 
-    flights_scrapper.collect_flights_data('Morocco', 'France', '2024-01-28', '2024-01-31')
+    flights_scrapper.collect_flights_data('Morocco', 'France', '2024-01-22', '2024-01-25')
 
 except Exception as e:
     print(f"{e}")
-    
 finally:
     db_manager.close()
 
