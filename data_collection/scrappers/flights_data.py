@@ -3,6 +3,8 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from datetime import date, datetime
+from selenium.common.exceptions import WebDriverException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 import numpy as np
 import pandas as pd
 import os
@@ -11,24 +13,6 @@ import logging
 import atexit
 import signal
 
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
-
-def setup_logging():
-    log_directory = "Log/RealTime_DataCollection"
-    os.makedirs(log_directory, exist_ok=True)
-    log_filename = datetime.now().strftime("%Y-%m-%d_%H-%M-%S.log")
-    log_filepath = os.path.join(log_directory, log_filename)
-
-    logging.basicConfig(filename=log_filepath, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-    consumer_logger = logging.getLogger(__name__)
-    atexit.register(logging.shutdown)  # Ensure proper shutdown of the logger
-    return consumer_logger
-
-# Call the setup_logging function
-logger = setup_logging()
-
-__all__ = ['Scrape', '_Scrape']
 
 class _Scrape:
 
@@ -37,21 +21,24 @@ class _Scrape:
         self._dest = None
         self._date_leave = None
         self._date_return = None
-        self._data = pd.DataFrame()  # Set a default empty DataFrame
+        self._data = None  # Set a default empty DataFrame
+        self.logger = self.setup_Scrapping_logging("Log/Flights_Scrapper" , "Flight_Scrapper.log")
 
-        signal.signal(signal.SIGINT, self._save_data_on_interrupt)
-        self.logger = setup_logging()
-
-    def setup_logging(self):
-        log_directory = "Log/Flights_DataCollection"
+    def setup_Scrapping_logging(self, log_directory, logger_name):
         os.makedirs(log_directory, exist_ok=True)
-        log_filename = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S.log")
+
+        log_filename = logger_name
         log_filepath = os.path.join(log_directory, log_filename)
 
-        logging.basicConfig(filename=log_filepath, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 
-        logger = logging.getLogger(__name__)
-        atexit.register(logging.shutdown)  # Ensure proper shutdown of the logger
+        handler = logging.FileHandler(log_filepath)
+        handler.setLevel(logging.INFO)
+        handler.setFormatter(formatter)
+
+        logger = logging.getLogger(log_filename)
+        logger.setLevel(logging.INFO)
+        logger.addHandler(handler)
 
         return logger
 
@@ -69,7 +56,7 @@ class _Scrape:
             return obj
 
         except KeyboardInterrupt:
-            logger.warning("Keyboard interruption. Saving scraped data.")
+            self.logger.warning("Keyboard interruption. Saving scraped data.")
             self._save_data_on_exit()
             sys.exit(0)
 
@@ -149,78 +136,62 @@ class _Scrape:
         scraper operations - Functions .
     '''
 
-    def _save_data_on_interrupt(self, signum, frame):
-        self._save_data_on_exit()
-        sys.exit(0)
-
-    def _save_data_on_exit(self):
-        if self._data is not None:
-            csv_directory = "Data"
-            csv_filename = f"flights_data_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.csv"
-            os.makedirs(csv_directory, exist_ok=True) 
-
-            csv_filepath = os.path.join(csv_directory, csv_filename)
-            self._data.to_csv(csv_filepath, index=False)
-
-            log_gui = "#" * 30 
-            self.logger.info(f"Data saved to CSV file: {csv_filepath}{log_gui}")
-
     def _scrape_data(self):
         try:
-            start_time = datetime.now()
-            self.logger.info("Start Scrapping Data at {}".format(start_time))
-
             url = self._make_url()
             if url:
                 self._data = self._get_results(url)
+                self.logger.info("_scrape_data Succed")
+                return self._data
 
         except KeyboardInterrupt:
-            self.logger.info("Programme interrompu par l'utilisateur....Saving the current data ")
-            self.save_data_on_exit()
-            sys.exit(0)
-
+            self.logger.info("Programme interrompu par l'utilisateur .... Saving the current data ")
+            raise
+        except TimeoutException as te:
+            self.logger.error(f"Un délai d'attente s'est produit pendant la demande d'URL dans _make_url_request - TimeOutException : {te}")
+            pass
         except Exception as e:
             self.logger.error(f"An error occurred during data scraping: {e}")
             raise
-        finally:
-            end_time = datetime.now()
-            self.logger.info("End Scrapping Data at {}. Elapsed Time: {}".format(end_time, end_time - start_time))
 
     def _make_url(self):
         try:
-            return 'https://www.google.com/travel/flights?q=Flights%20to%20{dest}%20from%20{org}%20on%20{dl}%20through%20{dr}'.format(
+            url = 'https://www.google.com/travel/flights?q=Flights%20to%20{dest}%20from%20{org}%20on%20{dl}%20through%20{dr}'.format(
                 dest=self._dest,        # Destination 
                 org=self._origin,       # Origin
                 dl=self._date_leave,    # date leave
                 dr=self._date_return    # date return 
             )
-        
+            self.logger.info("_make_url Succed")
+            return url
+
         except Exception as e:
-            logger.error(f"An error occurred while generating URL : {e}")
+            self.logger.error(f"An error occurred while generating URL : {e}")
             raise
 
     def _get_results(self, url):
         try:
-            results = _Scrape._make_url_request(url)
-
+            results = _Scrape._make_url_request(self ,url)
+            self.logger.info(f"results info : {results}")
             if results:
-                flight_info = _Scrape._get_info(results)
-                partition = _Scrape._partition_info(flight_info)
+                flight_info = _Scrape._get_info(self , results)
+                self.logger.info(f"flights info : {flight_info}")
+
+                partition = _Scrape._partition_info(self,flight_info)
+                self.logger.info(f"partition info : {partition}")
+
                 flights_data = _Scrape._parse_columns(self , partition, self._date_leave, self._date_return)
-
-                log_gui = "#" * 30
-                self.logger.info(f"Flights Data Scrapped Succefully {log_gui}")
-
+                self.logger.info(f"flights_data info : {flights_data}")
                 return flights_data 
             
         except Exception as e:
-            logger.error(f"An error occurred while getting results: {e}")
-            raise
+            self.logger.error(f"An error occurred while getting results: {e}")
+            pass
 
         return None
     
     @staticmethod
-    def _get_driver():
+    def _get_driver(self):
         try:
             chromedriver_path = "/Users/sabri/Desktop/Study /Youcode/Github/aviation-data-analytics/data_collection/scrappers/bin/chromedriver"
             chrom_binary_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
@@ -232,66 +203,87 @@ class _Scrape:
             # Create a new instance of the Chrome driver with specified options and executable path
             driver = webdriver.Chrome(executable_path=chromedriver_path, options=chrome_options)
 
+            self.logger.info("_get_driver  Succed")
+
             return driver
+        
+        except WebDriverException as e:
+            self.logger.error(f"Une erreur s'est produite dans _get_driver : {e}")
+            raise
 
         except Exception as e:
-            logger.error(f"An unexpected error occurred in _get_driver: {e}")
+            self.logger.error(f"An unexpected error occurred in _get_driver: {e}")
             raise
 
     @staticmethod
-    def _make_url_request(url):
+    def _make_url_request(self , url):
         try:
-            driver = _Scrape._get_driver()
+            driver = _Scrape._get_driver(self)
             driver.get(url)
 
             # Waiting and initial XPATH cleaning
-            WebDriverWait(driver, timeout=60).until(lambda d: len(_Scrape._get_flight_elements(d)) > 100)
+            WebDriverWait(driver, timeout=60).until(lambda d: len(_Scrape._get_flight_elements(self,d)) > 100)
 
-            results = _Scrape._get_flight_elements(driver)
-
-            logger.info("_make_url_request ------> Results Reetrieved Succefully ")
+            results = _Scrape._get_flight_elements(self,driver)
+            self.logger.info("_make_url_request  Succed")
 
             return results
         
         except TimeoutException as te:
-            logger.error(f"Timeout occurred during URL request in _make_url_request - TimeOutException: {te}")
+            self.logger.error(f"Timeout occurred during URL request in _make_url_request - TimeOutException: {te}")
             raise
         except Exception as e:
-            logger.error(f"An error occurred during URL request in _make_url_request: {e}")
+            self.logger.error(f"An error occurred during URL request in _make_url_request: {e}")
             raise
         finally:
             if 'driver' in locals():
                 driver.quit()
 
     @staticmethod
-    def _get_flight_elements(driver):
+    def _get_flight_elements(self ,driver):
         try:
-            return driver.find_element(by=By.XPATH, value='//body[@id = "yDmH0d"]').text.split('\n')
+            flight_element = driver.find_element(by=By.XPATH, value='//body[@id = "yDmH0d"]').text.split('\n')
+            self.logger.info("_get_flight_elements  Succed")
+
+            return flight_element
 
         except NoSuchElementException as nse:
-            logger.error(f"Error in _get_flight_elements: Element not found. {nse}")
+            self.logger.error(f"Erreur dans _get_flight_elements : Élément non trouvé. {nse}")
+            # Propager l'exception pour une gestion ultérieure si nécessaire
+            raise
+
         except Exception as e:
-            logger.error(f"An error occurred in _get_flight_elements: {e}")
-        return []
+            self.logger.error(f"Une erreur s'est produite dans _get_flight_elements : {e}")
+            # Propager l'exception pour une gestion ultérieure si nécessaire
+            pass
 
     @staticmethod
-    def _get_info(result):
-        info = []
-        collect = False
-        for r in result:
-            if 'more flights' in r:
-                collect = False
+    def _get_info(self,result):
+        try:
+            info = []
+            collect = False
 
-            if collect and 'price' not in r.lower() and 'prices' not in r.lower() and 'other' not in r.lower() and ' – ' not in r.lower():
-                info += [r]
+            for r in result:
+                if 'more flights' in r:
+                    collect = False
 
-            if r == 'Sort by:':
-                collect = True
+                if collect and 'price' not in r.lower() and 'prices' not in r.lower() and 'other' not in r.lower() and ' – ' not in r.lower():
+                    info += [r]
 
-        return info
+                if r == 'Sort by:':
+                    collect = True
+                    
+            self.logger.info("_get_info  Succed")
+
+            return info
+
+        except Exception as e:
+            self.logger.error(f"Une erreur s'est produite dans _get_info : {e}")
+            # Propager l'exception pour une gestion ultérieure si nécessaire
+            raise
 
     @staticmethod
-    def _partition_info(info):
+    def _partition_info(self,info):
         i, grouped = 0, []
         while i < len(info) - 1:
             j = i + 2
@@ -307,6 +299,7 @@ class _Scrape:
             grouped += [info[i:end]]
             i = end
 
+        self.logger.info("_partition_info  Succed")
         return grouped
 
     @staticmethod
@@ -319,38 +312,72 @@ class _Scrape:
 
         if x[-2:] == 'AM' or x[-2:] == 'PM':
             return True
+        
         return False
 
     @staticmethod
-    def _parse_columns(self , grouped, date_leave, date_return):
+    def _parse_columns(self, grouped, date_leave, date_return):
         flight_data = []  # List to store dictionaries representing each flight
 
         try:
-            for g in grouped:
-                i_diff = 0
+            # Instantiate empty column arrays
+            depart_time = None
+            arrival_time = None
+            airline = None
+            travel_time = None
+            origin =None
+            dest = None
+            stops = None
+            stop_time = None
+            stop_location = None
+            co2_emission = None
+            emission = None
+            price = None
+            trip_type = None
 
+            self.logger.info(f"Data  Returned Of Length : {len(grouped)}")
+            # For each "flight"
+            for g in grouped:
+                i_diff = 0 # int that checks if we need to jump ahead based on some conditions
+
+                # Get departure and arrival times
                 depart_time = g[0]
                 arrival_time = g[1]
+
+                # When this string shows up we jump ahead an index
                 i_diff += 1 if 'Separate tickets booked together' in g[2] else 0
 
+                # Add airline, travel time, origin, and dest
                 airline = g[2 + i_diff]
+
                 travel_time = g[3 + i_diff]
                 origin = g[4 + i_diff].split('–')[0]
                 dest = g[4 + i_diff].split('–')[1]
 
+                # Grab the number of stops by splitting string
                 num_stops = 0 if 'Nonstop' in g[5 + i_diff] else int(g[5 + i_diff].split('stop')[0])
                 stops = num_stops
 
+
+                # Add stop time/location given whether its nonstop flight or not
                 stop_time = None if num_stops == 0 else (g[6 + i_diff].split('min')[0] if num_stops == 1 else None)
-                stop_location = None if num_stops == 0 else (
-                    g[6 + i_diff].split('min')[1] if num_stops == 1 and 'min' in g[6 + i_diff] else [
-                        g[6 + i_diff].split('hr')[1] if 'hr' in g[6 + i_diff] and num_stops == 1 else g[6 + i_diff]])
-
-
+                stop_location = None if num_stops == 0 else (g[6 + i_diff].split('min')[1] if num_stops == 1 and 'min' in g[6 + i_diff] else [g[6 + i_diff].split('hr')[1] if 'hr' in g[6 + i_diff] and num_stops == 1 else g[6 + i_diff]])
+                # Jump ahead an index if flight isn't nonstop to accomodate for stop_time, stop_location
                 i_diff += 0 if num_stops == 0 else 1
 
-                price_str = g[8 + i_diff][3:]
-                price_value = float(''.join(char for char in price_str if char.isdigit() or char == '.'))
+                # If Co2 emission not listed then we skip, else we add
+                if g[6 + i_diff] != '–':
+                    co2_emission = float(g[6 + i_diff].replace(',','').split(' kg')[0])
+                    self.logger.info(f"Length of g: {len(g)}, i_diff: {i_diff}")
+
+                    emission = 0 if g[7 + i_diff] == 'NotCalculated' else str(g[7 + i_diff])
+                    price = g[8 + i_diff]
+                    trip_type = g[9 + i_diff]
+                else:
+                    co2_emission = None
+                    emission = None
+                    price = g[7 + i_diff]
+                    trip_type = g[7 + i_diff]
 
                 flight_data.append({
                     'Leave Date': date_leave,
@@ -364,24 +391,19 @@ class _Scrape:
                     'Num Stops': stops,
                     'Layover Time': stop_time,
                     'Stop Location': stop_location,
-                    'CO2 Emission': None,  # Fill in the appropriate value
-                    'Emission Avg Diff (%)': None,  # Fill in the appropriate value
-                    'Price ($)': price_value,
-                    'Trip Type': g[9 + i_diff],
+                    'CO2 Emission': co2_emission,  
+                    'Emission Avg Diff (%)': emission, 
+                    'Price ($)': price,
+                    'Trip Type': trip_type,
                     'Access Date': date.today().strftime('%Y-%m-%d')
                 })
+                
+                self.logger.info("One Element Added Succcefully")
 
+            return flight_data
+        
         except (ValueError, IndexError) as e:
-            logging.error(f"An error occurred in _parse_columns: {e}")
-
-        df = pd.DataFrame(flight_data)
-
-        if not df.empty:
-            self._data = df
-            # Save DataFrame to CSV file
-            self._save_data_on_exit()
-
-        return df
-
+            logging.error(f"An error occurred in _parse_columns: {e}, g: {g}, i_diff: {i_diff}")
+            pass
 
 

@@ -5,7 +5,7 @@ airports_data = '/Users/sabri/Desktop/Study /Youcode/Github/aviation-data-analyt
 df = pd.read_csv(airports_data)
 
 # Créer une nouvelle DataFrame avec les colonnes spécifiées sans valeurs nulles ou vides
-filtered_df = df[['name', 'latitude', 'longitude', 'city', 'country']]
+filtered_df = df[['icao','name', 'latitude', 'longitude', 'city', 'country']]
 
 # Utiliser dropna() pour supprimer les lignes avec des valeurs nulles
 filtered_df = filtered_df.dropna()

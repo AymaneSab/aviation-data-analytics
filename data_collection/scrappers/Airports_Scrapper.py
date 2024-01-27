@@ -2,7 +2,6 @@ import atexit
 import datetime
 import logging
 import os
-from hamcrest import none
 import requests
 import pandas as pd
 import sys 
@@ -21,17 +20,16 @@ class Airport_Scrapper:
         self.logger = self.setup_logging()
 
     def setup_logging(self):
-        log_directory = "Log/AirPorts_DataCollection"
+        log_directory = "Log/AirPorts_Scrapper"
         os.makedirs(log_directory, exist_ok=True)
-        log_filename = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S.log")
-        log_filepath = os.path.join(log_directory, log_filename)
+        log_filepath = os.path.join(log_directory, "AirPorts_Scrapper")
 
         logging.basicConfig(filename=log_filepath, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-        consumer_logger = logging.getLogger(__name__)
+        logger = logging.getLogger(__name__)
         atexit.register(logging.shutdown)  # Ensure proper shutdown of the logger
 
-        return consumer_logger
+        return logger
 
     def read_airports_iata(self):
         return pd.read_csv(self.csv_path)

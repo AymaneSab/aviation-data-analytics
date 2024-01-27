@@ -4,6 +4,9 @@
         "data_collection/scrappers/bin/",
         "./data_collection/scrappers",
         "./traffic/src",
-        "./opensky-api/python"
+        "./opensky-api/python",
+        "./usr/local/etc/",
+        "./data_collection/integrators",
+        "./data_processing/batch_processing"
     ]
 }

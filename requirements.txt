@@ -2,3 +2,4 @@ selenium
 numpy
 datapackage
 pandas
+pyodbc
