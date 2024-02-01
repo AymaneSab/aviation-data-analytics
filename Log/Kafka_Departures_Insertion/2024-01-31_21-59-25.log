@@ -1,0 +1,27 @@
+2024-01-31 21:59:42,037 - INFO - ----------> Packages Loaded Successfully 
+2024-01-31 21:59:49,128 - INFO - Transformation Succefull
+2024-01-31 22:19:16,450 - ERROR - An error occurred inawait  terminnatin: [STREAM_FAILED] Query [id = f3ea4aa2-7aac-49e1-8439-75ff3adc4e74, runId = 22c5e546-1264-4e4e-b930-147b55dbf3ec] terminated with exception: Job aborted due to stage failure: Task 0 in stage 16.0 failed 1 times, most recent failure: Lost task 0.0 in stage 16.0 (TID 16) (sabri-Parallels-Virtual-Platform executor driver): org.elasticsearch.hadoop.EsHadoopIllegalArgumentException: Cannot detect ES version - typically this happens if the network/Elasticsearch cluster is not accessible or when targeting a WAN/Cloud instance without the proper setting 'es.nodes.wan.only'
+	at org.elasticsearch.hadoop.rest.InitializationUtils.discoverAndValidateClusterInfo(InitializationUtils.java:335)
+	at org.elasticsearch.hadoop.rest.RestService.createWriter(RestService.java:581)
+	at org.elasticsearch.spark.rdd.EsRDDWriter.write(EsRDDWriter.scala:71)
+	at org.elasticsearch.spark.sql.streaming.EsStreamQueryWriter.run(EsStreamQueryWriter.scala:62)
+	at org.elasticsearch.spark.sql.streaming.EsSparkSqlStreamingSink.$anonfun$addBatch$5(EsSparkSqlStreamingSink.scala:72)
+	at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:92)
+	at org.apache.spark.TaskContext.runTaskWithListeners(TaskContext.scala:161)
+	at org.apache.spark.scheduler.Task.run(Task.scala:139)
+	at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:554)
+	at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1529)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:557)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: org.elasticsearch.hadoop.rest.EsHadoopNoNodesLeftException: Connection error (check network and/or proxy settings)- all nodes failed; tried [[127.0.0.1:9200]] 
+	at org.elasticsearch.hadoop.rest.NetworkClient.execute(NetworkClient.java:160)
+	at org.elasticsearch.hadoop.rest.RestClient.execute(RestClient.java:442)
+	at org.elasticsearch.hadoop.rest.RestClient.execute(RestClient.java:438)
+	at org.elasticsearch.hadoop.rest.RestClient.execute(RestClient.java:406)
+	at org.elasticsearch.hadoop.rest.RestClient.mainInfo(RestClient.java:755)
+	at org.elasticsearch.hadoop.rest.InitializationUtils.discoverAndValidateClusterInfo(InitializationUtils.java:327)
+	... 13 more
+
+Driver stacktrace:

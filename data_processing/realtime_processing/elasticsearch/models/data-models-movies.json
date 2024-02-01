@@ -1,0 +1,17 @@
+{
+  "settings": {
+      "index": {
+          "number_of_shards": 1,
+          "number_of_replicas": 0
+      }
+  },
+  "mappings": {
+      "properties": {
+          "movieId": {"type": "keyword"},
+          "title": {"type": "text"},
+          "release_date": {"type": "date"},
+          "video_release_date": {"type": "date"},
+          "IMDb_URL": {"type": "keyword"} 
+      }
+  }
+}

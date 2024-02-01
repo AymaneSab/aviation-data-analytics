@@ -1,0 +1,10 @@
+v1
+{"taskId":0,"execTimeMillis":1706734964593,"resource":"departures","records":1}
+{"taskId":0,"execTimeMillis":1706734970828,"resource":"departures","records":12}
+{"taskId":0,"execTimeMillis":1706734975206,"resource":"departures","records":5}
+{"taskId":0,"execTimeMillis":1706734980701,"resource":"departures","records":5}
+{"taskId":0,"execTimeMillis":1706734985106,"resource":"departures","records":4}
+{"taskId":0,"execTimeMillis":1706734989265,"resource":"departures","records":4}
+{"taskId":0,"execTimeMillis":1706735009966,"resource":"departures","records":10}
+{"taskId":0,"execTimeMillis":1706735071513,"resource":"departures","records":30}
+{"taskId":0,"execTimeMillis":1706735287533,"resource":"departures","records":96}

@@ -1,0 +1,110 @@
+2024-01-31 21:59:54,902 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:00:10,796 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:00:29,618 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:00:29,618 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:00:46,638 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:00:46,638 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:00:55,606 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:00:55,606 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:00:55,606 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:01:11,473 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:01:11,473 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:01:11,473 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:01:31,824 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:01:31,824 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:01:31,824 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:01:31,824 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:01:47,944 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:01:47,944 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:01:47,944 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:01:47,944 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:02:15,697 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:02:15,697 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:02:15,697 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:02:15,697 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:02:15,697 - ERROR - An error occurred: HTTPSConnectionPool(host='opensky-network.org', port=443): Read timed out. (read timeout=15.0)
+2024-01-31 22:02:22,124 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:02:22,124 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:02:22,124 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:02:22,124 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:02:22,124 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:02:28,366 - INFO - Departure Data Returned Successfully: 226 departures found.
+2024-01-31 22:02:28,366 - INFO - Departure Data Returned Successfully: 226 departures found.
+2024-01-31 22:02:28,366 - INFO - Departure Data Returned Successfully: 226 departures found.
+2024-01-31 22:02:28,366 - INFO - Departure Data Returned Successfully: 226 departures found.
+2024-01-31 22:02:28,366 - INFO - Departure Data Returned Successfully: 226 departures found.
+2024-01-31 22:02:28,366 - INFO - Departure Data Returned Successfully: 226 departures found.
+2024-01-31 22:02:32,968 - INFO - Arrivals Data Returned Successfully: 263 departures found.
+2024-01-31 22:02:32,968 - INFO - Arrivals Data Returned Successfully: 263 departures found.
+2024-01-31 22:02:32,968 - INFO - Arrivals Data Returned Successfully: 263 departures found.
+2024-01-31 22:02:32,968 - INFO - Arrivals Data Returned Successfully: 263 departures found.
+2024-01-31 22:02:32,968 - INFO - Arrivals Data Returned Successfully: 263 departures found.
+2024-01-31 22:02:32,968 - INFO - Arrivals Data Returned Successfully: 263 departures found.
+2024-01-31 22:23:59,628 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:23:59,628 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:23:59,628 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:23:59,628 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:23:59,628 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:23:59,628 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:23:59,628 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:24:00,293 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:24:00,293 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:24:00,293 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:24:00,293 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:24:00,293 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:24:00,293 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:24:00,293 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:24:06,678 - INFO - Departure Data Returned Successfully: 1 departures found.
+2024-01-31 22:24:06,678 - INFO - Departure Data Returned Successfully: 1 departures found.
+2024-01-31 22:24:06,678 - INFO - Departure Data Returned Successfully: 1 departures found.
+2024-01-31 22:24:06,678 - INFO - Departure Data Returned Successfully: 1 departures found.
+2024-01-31 22:24:06,678 - INFO - Departure Data Returned Successfully: 1 departures found.
+2024-01-31 22:24:06,678 - INFO - Departure Data Returned Successfully: 1 departures found.
+2024-01-31 22:24:06,678 - INFO - Departure Data Returned Successfully: 1 departures found.
+2024-01-31 22:24:06,678 - INFO - Departure Data Returned Successfully: 1 departures found.
+2024-01-31 22:24:07,582 - INFO - Arrivals Data Returned Successfully: 33 departures found.
+2024-01-31 22:24:07,582 - INFO - Arrivals Data Returned Successfully: 33 departures found.
+2024-01-31 22:24:07,582 - INFO - Arrivals Data Returned Successfully: 33 departures found.
+2024-01-31 22:24:07,582 - INFO - Arrivals Data Returned Successfully: 33 departures found.
+2024-01-31 22:24:07,582 - INFO - Arrivals Data Returned Successfully: 33 departures found.
+2024-01-31 22:24:07,582 - INFO - Arrivals Data Returned Successfully: 33 departures found.
+2024-01-31 22:24:07,582 - INFO - Arrivals Data Returned Successfully: 33 departures found.
+2024-01-31 22:24:07,582 - INFO - Arrivals Data Returned Successfully: 33 departures found.
+2024-01-31 22:25:26,874 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:25:26,874 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:25:26,874 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:25:26,874 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:25:26,874 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:25:26,874 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:25:26,874 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:25:26,874 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:25:26,874 - INFO - Departure Data Returned Successfully: 0 departures found.
+2024-01-31 22:25:31,765 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:25:31,765 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:25:31,765 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:25:31,765 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:25:31,765 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:25:31,765 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:25:31,765 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:25:31,765 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:25:31,765 - ERROR - An error occurred: object of type 'NoneType' has no len()
+2024-01-31 22:25:36,221 - INFO - Departure Data Returned Successfully: 226 departures found.
+2024-01-31 22:25:36,221 - INFO - Departure Data Returned Successfully: 226 departures found.
+2024-01-31 22:25:36,221 - INFO - Departure Data Returned Successfully: 226 departures found.
+2024-01-31 22:25:36,221 - INFO - Departure Data Returned Successfully: 226 departures found.
+2024-01-31 22:25:36,221 - INFO - Departure Data Returned Successfully: 226 departures found.
+2024-01-31 22:25:36,221 - INFO - Departure Data Returned Successfully: 226 departures found.
+2024-01-31 22:25:36,221 - INFO - Departure Data Returned Successfully: 226 departures found.
+2024-01-31 22:25:36,221 - INFO - Departure Data Returned Successfully: 226 departures found.
+2024-01-31 22:25:36,221 - INFO - Departure Data Returned Successfully: 226 departures found.
+2024-01-31 22:25:36,221 - INFO - Departure Data Returned Successfully: 226 departures found.
+2024-01-31 22:25:43,692 - INFO - Arrivals Data Returned Successfully: 263 departures found.
+2024-01-31 22:25:43,692 - INFO - Arrivals Data Returned Successfully: 263 departures found.
+2024-01-31 22:25:43,692 - INFO - Arrivals Data Returned Successfully: 263 departures found.
+2024-01-31 22:25:43,692 - INFO - Arrivals Data Returned Successfully: 263 departures found.
+2024-01-31 22:25:43,692 - INFO - Arrivals Data Returned Successfully: 263 departures found.
+2024-01-31 22:25:43,692 - INFO - Arrivals Data Returned Successfully: 263 departures found.
+2024-01-31 22:25:43,692 - INFO - Arrivals Data Returned Successfully: 263 departures found.
+2024-01-31 22:25:43,692 - INFO - Arrivals Data Returned Successfully: 263 departures found.
+2024-01-31 22:25:43,692 - INFO - Arrivals Data Returned Successfully: 263 departures found.
+2024-01-31 22:25:43,692 - INFO - Arrivals Data Returned Successfully: 263 departures found.
